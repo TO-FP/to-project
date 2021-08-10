@@ -9,5 +9,6 @@ route.get("/users", adminController.getUsers);
 route.get("/products", adminController.showAllProduct)
 route.get("/products/:id", adminController.findById)
 route.post("/products/addProduct", adminController.addProduct)
+route.put("/products/:id/update", adminController.updateProduct)
 
 module.exports = route;
