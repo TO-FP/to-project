@@ -14,22 +14,95 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Product.init({
-    UserId: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    desc: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    stock: DataTypes.INTEGER,
+    UserId: {
+      type:DataTypes.INTEGER
+    },
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty:true,
+        len:[2,100]
+      }
+    },
+    desc: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty:true,
+        len:[2,3000]
+      }
+    },
+    price: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate: {
+        isNumeric:true,
+        notNull:true
+      }
+    },
+    stock: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate: {
+        isInt:true,
+        notNull:true
+      }
+    },
+    
     expire: DataTypes.DATE,
-    weight: DataTypes.INTEGER,
-    category: DataTypes.STRING,
-    brand: DataTypes.STRING,
-    condition: DataTypes.STRING,
-    totalSold: DataTypes.INTEGER,
-    rating: DataTypes.INTEGER,
-    views: DataTypes.INTEGER
+
+    weight: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate: {
+        isInt:true,
+        notNull:true
+      }
+    },
+    category: {
+      type: DataTypes.STRING,
+      validate: {
+          notEmpty:true,
+          len: [2,50]
+      }
+    },
+    brand: {
+      type: DataTypes.STRING,
+      validate: {
+          notEmpty:true,
+          len: [1,50]
+      }
+    },
+    condition: {
+      type: DataTypes.STRING,
+      validate: {
+          notEmpty:true,
+          len: [2,15]
+      }
+    },
+    totalSold: {
+      type:DataTypes.INTEGER
+    },
+    rating: {
+      type:DataTypes.INTEGER
+    },
+    views: {
+      type:DataTypes.INTEGER
+    }
   }, {
     sequelize,
     modelName: 'Product',
+    hooks: {
+
+      beforeCreate(product, options){
+  
+        product.expire = new Date()
+        product.totalSold = 0
+        product.rating = 0
+        product.views = 0
+        
+      }
+
+    }
   });
   return Product;
 };
