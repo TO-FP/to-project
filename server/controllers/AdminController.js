@@ -1,4 +1,4 @@
-const { User, Product, products_image } = require("../models");
+const { User, Product, Products_image } = require("../models");
 
 class AdminController {
   static dashboard(req, res) {
@@ -48,10 +48,7 @@ class AdminController {
         category,
         brand,
         condition,
-        fileName,
-        fileSize,
-        fileType,
-        primary,
+        imageArray,
       } = req.body;
 
       let newProduct = await Product.create({
@@ -66,35 +63,35 @@ class AdminController {
         condition,
       });
 
-      let imageArray = [
-        {
-          fileName: "image1",
-          fileSize: "150kb",
-          fileType: "jpg",
-          primary: true,
-        },
-        {
-          fileName: "image2",
-          fileSize: "150kb",
-          fileType: "jpg",
-          primary: false,
-        },
-        {
-          fileName: "image3",
-          fileSize: "150kb",
-          fileType: "jpg",
-          primary: false,
-        },
-        {
-          fileName: "image4",
-          fileSize: "150kb",
-          fileType: "jpg",
-          primary: false,
-        },
-      ];
+      // let imageArray = [
+      //   {
+      //     fileName: "image1",
+      //     fileSize: "150kb",
+      //     fileType: "jpg",
+      //     primary: true,
+      //   },
+      //   {
+      //     fileName: "image2",
+      //     fileSize: "150kb",
+      //     fileType: "jpg",
+      //     primary: false,
+      //   },
+      //   {
+      //     fileName: "image3",
+      //     fileSize: "150kb",
+      //     fileType: "jpg",
+      //     primary: false,
+      //   },
+      //   {
+      //     fileName: "image4",
+      //     fileSize: "150kb",
+      //     fileType: "jpg",
+      //     primary: false,
+      //   },
+      // ];
 
       imageArray.forEach((img) => {
-        products_image.create({
+        Products_image.create({
           ProductId: newProduct.id,
           fileName: img.fileName,
           fileSize: img.fileSize,
@@ -103,7 +100,7 @@ class AdminController {
         });
       });
 
-      // let newImage = await products_image.create({
+      // let newImage = await Products_image.create({
       //   ProductId: newProduct.id , fileName, fileSize, fileType, primary
       // })
 
@@ -116,8 +113,7 @@ class AdminController {
   static async findById(req, res) {
     const id = +req.params.id;
     try {
-      let productById = Product.findByPk(id);
-
+      let productById = await Product.findByPk(id);
       res
         .status(200)
         .json({ message: "produk detail berhasil ditampilkan", productById });
