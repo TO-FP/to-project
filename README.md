@@ -118,12 +118,12 @@
   }
   ```
 
-  - ##### Wrong Password (401) :
+  - ##### Invalid Password (401) :
 
   ```json
   {
     "status": 401,
-    "message": "Login failed, email and password do not match!"
+    "message": "Password is invalid!"
   }
   ```
 
