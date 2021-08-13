@@ -5,7 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
+<<<<<<< Updated upstream
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "create": "node dummy/create.js",
+    "delete": "node dummy/delete.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server --watch product.json"
+>>>>>>> Stashed changes
   },
   "author": "",
   "license": "ISC",
