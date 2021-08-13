@@ -1,12 +1,11 @@
 const bcrypt = require("bcrypt");
-const saltRound = +process.env.SALT_ROUND;
 
-const encrypter = (pwd) => {
-  return bcrypt.hashSync(pwd, saltRound);
+const encrypter = (password, salt) => {
+  return bcrypt.hashSync(password, salt);
 };
 
-const decrypter = (pwd, hashPwd) => {
-  return bcrypt.compareSync(pwd, hashPwd);
+const decrypter = (password, hashPassword) => {
+  return bcrypt.compareSync(password, hashPassword);
 };
 
 module.exports = { encrypter, decrypter };

@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
+const { encrypter } = require("../helpers/bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -10,21 +9,91 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Product);
     }
-  };
-  User.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    salt: DataTypes.STRING,
-    birthdate: DataTypes.DATE,
-    gender: DataTypes.STRING,
-    avatar: DataTypes.STRING,
-    type: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  }
+  User.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Name cannot be empty!",
+          },
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Email cannot be empty!",
+          },
+          isEmail: {
+            msg: "Only email format is allowed!",
+          },
+          isUnique: (val, next) => {
+            User.findOne({ where: { email: val } }).then((user) => {
+              if (!user) {
+                next();
+              } else {
+                return next("Email address already in use!");
+              }
+            });
+          },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Password cannot be empty!",
+          },
+        },
+      },
+      salt: DataTypes.STRING,
+      birthdate: {
+        type: DataTypes.DATE,
+        validate: {
+          notEmpty: {
+            msg: "Birthdate cannot be empty!",
+          },
+        },
+      },
+      gender: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Gender cannot be empty!",
+          },
+        },
+      },
+      avatar: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: "Avatar cannot be empty!",
+          },
+        },
+      },
+      type: {
+        type: DataTypes.STRING,
+      },
+    },
+    {
+      hooks: {
+        beforeCreate: (user, options) => {
+          user.password = encrypter(user.password, user.salt);
+
+          if (user.type === "admin") {
+            user.type = "admin";
+          } else {
+            user.type = "user";
+          }
+        },
+      },
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
