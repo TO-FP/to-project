@@ -13,6 +13,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "json-server --watch product.json"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
