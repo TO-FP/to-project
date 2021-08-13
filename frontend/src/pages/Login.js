@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-function Login({ login, userLogin, getToken }) {
+function Login({ login, userLogin, getToken, getUser }) {
   // console.log(userLogin);
 
   const history = useHistory();
@@ -30,8 +30,11 @@ function Login({ login, userLogin, getToken }) {
         data: loginData,
       });
       const access_token = result.data["access_token"];
+      const userData = result.data.user;
+      // console.log(userData);
       userLogin(true);
       getToken(access_token);
+      getUser(userData);
       history.push("/profile");
     } catch (err) {
       Swal.fire("ERROR", `${err}`, "error");

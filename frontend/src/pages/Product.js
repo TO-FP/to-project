@@ -3,23 +3,57 @@ import React from "react";
 import { useEffect } from "react";
 import { Blocking, NavbarAfterLogIn, ProductCard } from "../component";
 import { useState } from "react";
-
+import Slider from "react-slick";
+import { useParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
 function Product() {
   const URL = "http://localhost:3000/api";
   const [item, setItem] = useState([]);
+  // useEffect(() => {
+  //   getItem();
+  // }, []);
+  // const getItem = () => {
+  //   axios({
+  //     method: "GET",
+  //     url: `${URL}/products`,
+  //   }).then((item) => {
+  //     setItem(item.data.products);
+  //     // console.log(item.data.products);
+  //   });
+  // };
+  const params = useParams();
+  const pageid = +params.page;
+
+  const [productPage, setProductPage] = useState();
+
+  // const handlePageClick = (event) => {
+  //   let page = event.selected;
+  //   setProductPage(page);
+  //   console.log(page);
+  // };
+
   useEffect(() => {
-    getItem();
+    getPage();
   }, []);
-  const getItem = () => {
+
+  const getPage = () => {
     axios({
       method: "GET",
-      url: `${URL}/products`,
+      url: `${URL}/products/'${pageid}`,
     }).then((item) => {
       setItem(item.data.products);
-      // console.log(item.data.products);
     });
   };
-
+  // console.log(item);
+  // let pageCount = Math.ceil(item.length / 10);
+  // console.log(item.length);
+  // console.log(pageCount);
+  // let pageCount = () => {
+  //   let length = item.length;
+  // console.log(item);
+  // };
+  // let count = 0;
   return (
     <div>
       {/* <NavbarAfterLogIn /> */}
@@ -70,7 +104,7 @@ function Product() {
                   }
                 });
                 let [{ fileName }] = img_file;
-                console.log(item);
+                // console.log(img_file);
                 return (
                   <ProductCard
                     item={item.name}
@@ -78,9 +112,31 @@ function Product() {
                     brand={item.brand}
                     img={fileName}
                     id={item.id}
+                    toko={item.User.name}
                   />
                 );
               })}
+
+              <div class="container">
+                <Link className="btn btn-primary btn-page" to="/product/1">
+                  1
+                </Link>
+                <Link className="btn btn-primary btn-page" to="/product/2">
+                  2
+                </Link>
+                <Link className="btn btn-primary btn-page" to="/product/3">
+                  3
+                </Link>
+              </div>
+
+              {/* <ReactPaginate
+                previousLabel={"prev"}
+                nextLabel={"next"}
+                pageCount={pageCount}
+                onPageChange={(event) => handlePageClick(event)}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+              /> */}
             </div>
           </div>
         </div>

@@ -24,6 +24,10 @@ function App() {
     localStorage.setItem("access_token", token);
   };
 
+  const getUser = (user) => {
+    localStorage.setItem("user_data", JSON.stringify(user));
+  };
+
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
       setLogin(true);
@@ -41,7 +45,11 @@ function App() {
           <Switch>
             <Route path="/" component={Home} exact></Route>
             <Route path="/login">
-              <Login userLogin={userLogin} getToken={getToken} />
+              <Login
+                userLogin={userLogin}
+                getToken={getToken}
+                getUser={getUser}
+              />
             </Route>
             <Route path="/register" component={Register}></Route>
           </Switch>

@@ -5,26 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-    "test": "echo \"Error: no test specified\" && exit 1"
-=======
->>>>>>> 18ea2000d96dc792ab97f6e3d2377d1a3a75c662
     "create": "node dummy/create.js",
     "delete": "node dummy/delete.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "json-server --watch product.json"
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
->>>>>>> 18ea2000d96dc792ab97f6e3d2377d1a3a75c662
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.3",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5"
   },

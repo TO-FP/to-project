@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 const secretCode = "TRYOUTFINALPROJECT";
 
 const tokenGenerator = (user) => {
-  const { email, password, type } = user;
-  const token = jwt.sign({ email, password, type }, secretCode);
+  const { name, email, password, type } = user;
+  const token = jwt.sign({ name, email, password, type }, secretCode);
   return token;
 };
 
