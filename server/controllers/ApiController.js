@@ -5,7 +5,8 @@ const { tokenGenerator, tokenVerifier } = require("../helpers/jwt");
 
 class ApiController {
   static async register(req, res) {
-    const { name, email, password, gender, birthdate, avatar, type } = req.body;
+    const file = req.file;
+    const { name, email, password, gender, birthdate, type } = req.body;
     const salt = bcrypt.genSaltSync(10);
 
     try {
@@ -16,7 +17,7 @@ class ApiController {
         salt,
         gender,
         birthdate,
-        avatar,
+        avatar: file ? file.filename : "blank.png",
         type,
       });
       res.status(201).json({
@@ -72,6 +73,33 @@ class ApiController {
     }
   }
 
+  static async updateProfile(req, res) {
+    const userData = req.userData;
+    const file = req.file;
+    const { name, birthdate, gender } = req.body;
+
+    try {
+      const user = await User.findOne({ where: { email: userData.email } });
+
+      await User.update(
+        {
+          name,
+          birthdate,
+          gender,
+          avatar: file ? file.filename : user.avatar,
+        },
+        { where: { email: user.email } }
+      );
+
+      res.status(200).json({
+        status: 200,
+        message: "User data has been updated!",
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
   static async homePage(req, res) {
     try {
       const products = await Product.findAll({
@@ -95,10 +123,17 @@ class ApiController {
   }
 
   static async productsPage(req, res) {
+    let page = +req.params.page;
+    if (!page) page = 1;
+    const limit = 10;
+
+    const offset = (page - 1) * limit;
+
     try {
       const products = await Product.findAll({
         order: [["id", "ASC"]],
-        limit: 10,
+        offset,
+        limit,
         attributes: { exclude: ["UserId"] },
         include: [
           { model: User, attributes: ["name"] },

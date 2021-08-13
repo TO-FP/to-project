@@ -63,6 +63,8 @@ class AdminController {
   }
 
   static addProduct(req, res) {
+    const files = req.files;
+
     const {
       name,
       desc,
@@ -75,35 +77,41 @@ class AdminController {
       images,
     } = req.body;
 
-    Product.create({
-      UserId: req.userData.id,
-      name,
-      desc,
-      price,
-      stock,
-      weight,
-      category,
-      brand,
-      condition,
-    })
-      .then((product) => {
-        images.forEach((img) => {
-          Products_image.create({
-            ProductId: product.id,
-            fileName: img.fileName,
-            fileSize: img.fileSize,
-            fileType: img.fileType,
-            primary: img.primary,
-          });
-        });
-        res.status(201).json({
-          status: 201,
-          message: "Product added successfully!",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
+    res.status(200).json({
+      status: 200,
+      message: "Product has been added!",
+      files,
+    });
+
+    // Product.create({
+    //   UserId: req.userData.id,
+    //   name,
+    //   desc,
+    //   price,
+    //   stock,
+    //   weight,
+    //   category,
+    //   brand,
+    //   condition,
+    // })
+    //   .then((product) => {
+    //     images.forEach((img) => {
+    //       Products_image.create({
+    //         ProductId: product.id,
+    //         fileName: img.fileName,
+    //         fileSize: img.fileSize,
+    //         fileType: img.fileType,
+    //         primary: img.primary,
+    //       });
+    //     });
+    //     res.status(201).json({
+    //       status: 201,
+    //       message: "Product added successfully!",
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     res.status(500).json(err);
+    //   });
   }
 
   static updateProduct(req, res) {
