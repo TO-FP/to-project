@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
 import { Blocking, TableCart } from "../component";
 import { NavbarAfterLogIn } from "../component";
+import axios from "axios";
 
 function Cart() {
+  const token = localStorage.getItem("access_token");
+  const URL = "http://localhost:3000/api";
+  const [item, setItem] = useState();
+
+  useEffect(() => {
+    getCart();
+  }, []);
+
+  const getCart = () => {
+    axios({
+      method: "GET",
+      url: `${URL}//show-cart`,
+      headers: { access_token: token },
+    }).then((item) => {
+      setItem(item.data.cart);
+    });
+  };
+
+  console.log(item);
+
   return (
     <div>
       <div class="container-lg title">

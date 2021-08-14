@@ -5,12 +5,13 @@ import { NavbarAfterLogIn } from "../component";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 function ProductDetail() {
   const params = useParams();
   // console.log(params);
   const [item, setItem] = useState({});
-  const id = +params.id;
+  const productId = +params.id;
   // console.log(id);
   const URL = "http://localhost:3000/api";
 
@@ -24,7 +25,7 @@ function ProductDetail() {
     try {
       let result = await axios({
         method: "GET",
-        url: `${URL}/product-details/${id}`,
+        url: `${URL}/product-details/${productId}`,
       });
       setItem(result.data.product);
       setItemData(result.data.product);
@@ -35,34 +36,39 @@ function ProductDetail() {
   };
 
   const cek = localStorage;
-  const UserId = JSON.parse(cek["user_data"]).id;
-  // console.log(item);
+  // const userId = JSON.parse(cek["user_data"]).id;
+  // const userName = JSON.parse(cek["user_data"]).name;
+  const token = localStorage.getItem("access_token");
+  console.log(token);
 
-  const { name, desc, price, weight, category, brand, condition } = item;
+  // console.log(userName);
+  // console.log(item);
 
   const [itemData, setItemData] = useState();
 
+  const [qty, setQty] = useState(0);
+
   const submitHandler = (e) => {
     e.preventDefault();
-    postToCart();
-    console.log("click");
+
+    postToProduct(qty);
+    // console.log("click");
   };
 
-  const postToCart = async () => {
+  console.log(qty);
+  const postToProduct = async (qty) => {
     await axios({
       method: "POST",
-      url: `${URL}/add-to-cart`,
-      data: { UserId },
+      url: `${URL}/product-details/${productId}/add-to-cart`,
+      data: { qty },
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        access_token: token,
+      },
     });
+    Swal.fire("Added to Cart");
   };
-
-  const postToProduct = async () => {
-    await axios({
-      method: "POST",
-      url: `${URL}/add-to-cart`,
-    });
-  };
-
+  // console.log(typeof qty);
   // console.log(item);
   return (
     <div>
@@ -98,6 +104,8 @@ function ProductDetail() {
             <p>{item.condition}</p>
             <h5>Rating</h5>
             <p>{item.rating} / 5</p>
+            <p>People who views this product</p>
+            <p>{item.views}</p>
           </div>
         </div>
         <div class="row">
@@ -112,11 +120,11 @@ function ProductDetail() {
                   <select
                     class="form-select"
                     aria-label="Default select example"
-                    onChange={(e) =>
-                      setItemData({ ...itemData, stock: e.target.value })
-                    }
+                    onChange={(e) => setQty(e.target.value)}
                   >
-                    <option selected>Select Quantity</option>
+                    <option value="0" selected>
+                      Select Quantity
+                    </option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

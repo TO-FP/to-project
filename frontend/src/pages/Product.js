@@ -25,13 +25,20 @@ function Product() {
   const params = useParams();
   const pageid = +params.page;
 
-  const [productPage, setProductPage] = useState();
+  const [productPage, setProductPage] = useState(0);
 
-  // const handlePageClick = (event) => {
-  //   let page = event.selected;
-  //   setProductPage(page);
-  //   console.log(page);
-  // };
+  const handlePageClick = async (event) => {
+    let page = event.selected;
+    console.log("click");
+    // console.log(page + 1);
+    await axios({
+      method: "GET",
+      url: `${URL}/products/${page + 1}`,
+    }).then((item) => {
+      setItem(item.data.products);
+      setProductPage(item.data);
+    });
+  };
 
   useEffect(() => {
     getPage();
@@ -43,8 +50,12 @@ function Product() {
       url: `${URL}/products/'${pageid}`,
     }).then((item) => {
       setItem(item.data.products);
+      setProductPage(item.data);
     });
   };
+
+  // console.log(productPage);
+
   // console.log(item);
   // let pageCount = Math.ceil(item.length / 10);
   // console.log(item.length);
@@ -54,6 +65,8 @@ function Product() {
   // console.log(item);
   // };
   // let count = 0;
+
+  console.log(productPage.totalPage);
   return (
     <div>
       {/* <NavbarAfterLogIn /> */}
@@ -117,7 +130,7 @@ function Product() {
                 );
               })}
 
-              <div class="container">
+              {/* <div class="container">
                 <Link className="btn btn-primary btn-page" to="/product/1">
                   1
                 </Link>
@@ -127,16 +140,16 @@ function Product() {
                 <Link className="btn btn-primary btn-page" to="/product/3">
                   3
                 </Link>
-              </div>
+              </div> */}
 
-              {/* <ReactPaginate
+              <ReactPaginate
                 previousLabel={"prev"}
                 nextLabel={"next"}
-                pageCount={pageCount}
+                pageCount={productPage.totalPage}
                 onPageChange={(event) => handlePageClick(event)}
                 containerClassName={"pagination"}
                 activeClassName={"active"}
-              /> */}
+              />
             </div>
           </div>
         </div>
