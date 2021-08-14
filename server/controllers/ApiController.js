@@ -4,10 +4,12 @@ const {
   Products_image,
   Shopping_cart,
   Line_item,
+  Order,
 } = require("../models");
 const bcrypt = require("bcrypt");
 const { decrypter } = require("../helpers/bcrypt");
 const { tokenGenerator, tokenVerifier } = require("../helpers/jwt");
+const randomstring = require("randomstring");
 
 class ApiController {
   static async register(req, res) {
@@ -200,7 +202,6 @@ class ApiController {
       const userName = req.userData.name;
       const productId = +req.params.id;
       const { qty } = req.body;
-      const subName = userName.substring(0, 3).toUpperCase();
 
       const product = await Product.findByPk(productId);
 
@@ -308,7 +309,7 @@ class ApiController {
     const id = req.userData.id;
 
     try {
-      const cart = await Shopping_cart.findOne({
+      const cart = await Shopping_cart.findAll({
         where: { UserId: id },
         include: [
           {
@@ -316,6 +317,12 @@ class ApiController {
             include: [
               {
                 model: Product,
+                include: [
+                  {
+                    model: Products_image,
+                    where: { primary: true },
+                  },
+                ],
               },
             ],
             order: [[Product, "id", "ASC"]],
@@ -328,6 +335,221 @@ class ApiController {
         status: 200,
         message: "Successfully display carts!",
         cart,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async cartCheckbox(req, res) {
+    const id = +req.params.id;
+    const userId = req.userData.id;
+    const checkbox = req.params.checkbox;
+
+    try {
+      if (checkbox === "open" || checkbox === "closed") {
+        const cart = await Shopping_cart.update(
+          {
+            status: checkbox,
+          },
+          {
+            where: {
+              id,
+              UserId: userId,
+            },
+          }
+        );
+
+        res.status(200).json({
+          status: 200,
+          message: "Successfully change status cart!",
+        });
+      } else {
+        throw {
+          status: 404,
+          message: "Invalid status",
+        };
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async cartCheckboxAll(req, res) {
+    const userId = req.userData.id;
+    const checkbox = req.params.checkbox;
+
+    try {
+      if (checkbox === "open" || checkbox === "closed") {
+        const cart = await Shopping_cart.update(
+          {
+            status: checkbox,
+          },
+          {
+            where: {
+              UserId: userId,
+            },
+          }
+        );
+
+        res.status(200).json({
+          status: 200,
+          message: "Successfully change status cart!",
+        });
+      } else {
+        throw {
+          status: 404,
+          message: "Invalid status",
+        };
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async removeCart(req, res) {
+    const id = +req.params.id;
+    const userId = req.userData.id;
+
+    try {
+      const line_items = await Line_item.findAll({
+        where: { ShoppingCartId: id },
+      });
+
+      if (line_items.length < 1) {
+        throw {
+          status: 404,
+          message: "Cart not found!",
+        };
+      }
+
+      line_items.forEach(async (line_item) => {
+        await Line_item.destroy({ where: { id: line_item.id } });
+      });
+
+      await Shopping_cart.destroy({ where: { id } });
+
+      res.status(200).json({
+        status: 200,
+        message: "Successfully remove cart!",
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async checkout(req, res) {
+    const userId = req.userData.id;
+    const userName = req.userData.name;
+
+    try {
+      const { city, address } = req.body;
+
+      if (!city || !address) {
+        throw {
+          status: 500,
+          message: "City or address cannot be null",
+        };
+      }
+
+      const shoppingCarts = await Shopping_cart.findAll({
+        where: { UserId: userId, status: "open" },
+        include: [
+          {
+            model: Line_item,
+            where: { status: "cart" },
+            include: [
+              {
+                model: Product,
+              },
+            ],
+          },
+        ],
+        order: [
+          ["id", "ASC"],
+          [Line_item, "id", "ASC"],
+        ],
+      });
+
+      shoppingCarts.forEach(async (shoppingCart) => {
+        // keranjang pertama
+
+        const orderName = `HS-INV/SC${shoppingCart.id}${userName
+          .substring(0, 3)
+          .toUpperCase()}`;
+        const payTrx = randomstring.generate();
+        let subtotal = 0;
+
+        shoppingCart.Line_items.forEach((line_item) => {
+          // produk pertama dikeranjang pertama
+          const total = line_item.qty * line_item.Product.price;
+          subtotal += total;
+        });
+
+        let totalDue = subtotal;
+
+        // tax
+        const tax = (10 * totalDue) / 100;
+        totalDue += tax;
+
+        //disc
+        let discount = 0;
+        if (shoppingCart.Line_items.length > 2) {
+          discount = (5 * totalDue) / 100;
+          totalDue -= discount;
+        }
+
+        await Line_item.update(
+          {
+            orderName,
+          },
+          {
+            where: {
+              ShoppingCartId: shoppingCart.id,
+              status: "cart",
+            },
+          }
+        );
+
+        const dataOrder = {
+          UserId: userId,
+          name: orderName,
+          subtotal,
+          discount,
+          tax,
+          totalDue,
+          totalQty: shoppingCart.Line_items.length,
+          payTrx,
+          city: "Jakarta",
+          address: "Jl. Radio Dalam",
+        };
+
+        try {
+          await Order.create({
+            UserId: userId,
+            name: orderName,
+            subtotal,
+            discount,
+            tax,
+            totalDue,
+            totalQty: shoppingCart.Line_items.length,
+            payTrx,
+            city,
+            address,
+          });
+
+          res.json({
+            status: 200,
+            message: "Checkout success!",
+          });
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      });
+
+      res.json({
+        status: 200,
+        message: "Checkout success!",
       });
     } catch (err) {
       res.status(500).json(err);
