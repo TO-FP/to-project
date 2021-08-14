@@ -115,8 +115,6 @@ class ApiController {
     try {
       const limit = 3;
 
-      const totalProduct = await Product.findAll();
-      const totalPage = Math.ceil(totalProduct.length / limit);
       const products = await Product.findAll({
         order: [["id", "ASC"]],
         limit: limit,
@@ -130,9 +128,6 @@ class ApiController {
         ],
       });
       res.status(200).json({
-        totalProduct: totalProduct.length,
-        limit,
-        totalPage,
         products,
       });
     } catch (err) {
@@ -146,6 +141,8 @@ class ApiController {
     const limit = 10;
 
     const offset = (page - 1) * limit;
+    const totalProduct = await Product.findAll();
+    const totalPage = Math.ceil(totalProduct.length / limit);
 
     try {
       const products = await Product.findAll({
@@ -162,6 +159,9 @@ class ApiController {
         ],
       });
       res.status(200).json({
+        totalProduct: totalProduct.length,
+        limit,
+        totalPage,
         products,
       });
     } catch (err) {
