@@ -1,5 +1,6 @@
 const { User, Product } = require("../../models");
 const { tokenVerifier } = require("../../helpers/jwt");
+const multer = require("multer");
 
 const authentication = (req, res, next) => {
   const { access_token } = req.headers;

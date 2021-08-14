@@ -35,21 +35,20 @@ const MulterSingle = (dest) => {
   return upload.single("file");
 };
 
-const MulterArray = (dest) => {
+const MulterArray = () => {
   //type = "single" | "array"
   var storage = multer.diskStorage({
-    destination: `${dest}`,
+    destination: "./public/images/products/",
     filename: (req, file, cb) => {
       const { access_token } = req.headers;
       const decoded = tokenVerifier(access_token);
       const name = decoded.name.split(" ");
 
-      file.status = true;
+      // file.status = true;
 
-      cb(
-        null,
-        name[0].toLowerCase() + "-" + Date.now() + "-" + file.originalname
-      );
+      const mimetype = file.mimetype.split("/");
+
+      cb(null, name[0].toLowerCase() + "-" + Date.now() + "." + mimetype[1]);
     },
   });
   var upload = multer({

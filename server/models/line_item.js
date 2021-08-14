@@ -8,17 +8,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Line_item.belongsTo(models.Shopping_cart);
+      Line_item.belongsTo(models.Product);
       // define association here
     }
   }
   Line_item.init(
     {
-      ShopId: {
+      ShoppingCartId: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "Shopping_cart",
-          key: "id",
-        },
+        // references: {
+        //   model: "Shopping_cart",
+        //   key: "id",
+        // },
       },
       ProductId: DataTypes.INTEGER,
       qty: DataTypes.INTEGER,
@@ -26,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       orderName: DataTypes.STRING,
     },
     {
+      hooks: {
+        beforeCreate: (line_item, options) => {
+          line_item.status = "cart";
+        },
+      },
       sequelize,
       modelName: "Line_item",
     }

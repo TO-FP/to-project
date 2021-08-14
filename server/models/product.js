@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Product.belongsTo(models.User);
       Product.hasMany(models.Products_image);
+      Product.hasMany(models.Line_item);
     }
   }
   Product.init(
@@ -20,23 +21,30 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notEmpty: true,
-          len: [2, 100],
+          notEmpty: {
+            msg: "Name cannot be empty!",
+          },
+          notNull: true,
         },
       },
       desc: {
         type: DataTypes.STRING,
         validate: {
-          notEmpty: true,
-          len: [2, 3000],
+          notEmpty: {
+            msg: "Desc cannot be empty!",
+          },
         },
       },
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isNumeric: true,
+          notEmpty: {
+            msg: "Price cannot be empty!",
+          },
+          isInt: true,
           notNull: true,
         },
       },
@@ -44,6 +52,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
+          notEmpty: {
+            msg: "Stock cannot be empty!",
+          },
           isInt: true,
           notNull: true,
         },
@@ -55,6 +66,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
+          notEmpty: {
+            msg: "Weight cannot be empty!",
+          },
           isInt: true,
           notNull: true,
         },
@@ -62,22 +76,25 @@ module.exports = (sequelize, DataTypes) => {
       category: {
         type: DataTypes.STRING,
         validate: {
-          notEmpty: true,
-          len: [2, 50],
+          notEmpty: {
+            msg: "Category cannot be empty!",
+          },
         },
       },
       brand: {
         type: DataTypes.STRING,
         validate: {
-          notEmpty: true,
-          len: [1, 50],
+          notEmpty: {
+            msg: "Category cannot be empty!",
+          },
         },
       },
       condition: {
         type: DataTypes.STRING,
         validate: {
-          notEmpty: true,
-          len: [2, 15],
+          notEmpty: {
+            msg: "Category cannot be empty!",
+          },
         },
       },
       totalSold: {

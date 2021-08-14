@@ -1,4 +1,5 @@
 const { User, Product, Products_image } = require("../models");
+const { tokenVerifier } = require("../helpers/jwt");
 
 class AdminController {
   static dashboard(req, res) {
@@ -24,8 +25,14 @@ class AdminController {
 
   static findAllProduct(req, res) {
     Product.findAll({
-      include: [{ model: User, attributes: ["email"] }, Products_image],
-      order: [["id", "ASC"]],
+      include: [
+        { model: User, attributes: ["email"] },
+        { model: Products_image },
+      ],
+      order: [
+        ["id", "ASC"],
+        [Products_image, "id", "ASC"],
+      ],
     })
       .then((products) => {
         res.status(200).json({
@@ -42,7 +49,10 @@ class AdminController {
   static findOneProduct(req, res) {
     const id = +req.params.id;
 
-    Product.findByPk(id)
+    Product.findByPk(id, {
+      include: [Products_image],
+      order: [[Products_image, "id", "ASC"]],
+    })
       .then((product) => {
         if (product) {
           res.status(200).json({
@@ -62,8 +72,68 @@ class AdminController {
       });
   }
 
-  static addProduct(req, res) {
+  static async addProduct(req, res) {
     const files = req.files;
+    const { access_token } = req.headers;
+    const decoded = tokenVerifier(access_token);
+
+    const user = await User.findOne({
+      where: { email: decoded.email },
+    });
+
+    const { name, desc, price, stock, weight, category, brand, condition } =
+      req.body;
+
+    Product.create({
+      UserId: user.id,
+      name,
+      desc,
+      price,
+      stock,
+      weight,
+      category,
+      brand,
+      condition,
+    })
+      .then((product) => {
+        if (files.length > 0) {
+          files.forEach((file) => {
+            Products_image.create({
+              ProductId: product.id,
+              fileName: file.filename,
+              fileSize: file.size,
+              fileType: file.mimetype,
+              primary: true,
+            });
+          });
+        } else {
+          Products_image.create({
+            ProductId: product.id,
+            fileName: "product-image-placeholder.jpg",
+            fileSize: "22kb",
+            fileType: "jpg",
+            primary: true,
+          });
+        }
+
+        res.status(201).json({
+          status: 201,
+          message: "Product added successfully!",
+          product,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          status: 500,
+          ...err,
+        });
+      });
+  }
+
+  static async updateProduct(req, res) {
+    const id = +req.params.id;
+
+    const IMAGES = [];
 
     const {
       name,
@@ -73,51 +143,20 @@ class AdminController {
       weight,
       category,
       brand,
+      IMAGE0,
+      IMAGE1,
+      IMAGE2,
+      IMAGE3,
       condition,
-      images,
     } = req.body;
 
-    res.status(200).json({
-      status: 200,
-      message: "Product has been added!",
-      files,
-    });
+    IMAGES.push(IMAGE0 === "true" ? true : false);
+    IMAGES.push(IMAGE1 === "true" ? true : false);
+    IMAGES.push(IMAGE2 === "true" ? true : false);
+    IMAGES.push(IMAGE3 === "true" ? true : false);
 
-    // Product.create({
-    //   UserId: req.userData.id,
-    //   name,
-    //   desc,
-    //   price,
-    //   stock,
-    //   weight,
-    //   category,
-    //   brand,
-    //   condition,
-    // })
-    //   .then((product) => {
-    //     images.forEach((img) => {
-    //       Products_image.create({
-    //         ProductId: product.id,
-    //         fileName: img.fileName,
-    //         fileSize: img.fileSize,
-    //         fileType: img.fileType,
-    //         primary: img.primary,
-    //       });
-    //     });
-    //     res.status(201).json({
-    //       status: 201,
-    //       message: "Product added successfully!",
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     res.status(500).json(err);
-    //   });
-  }
-
-  static updateProduct(req, res) {
-    const id = +req.params.id;
-    const { name, desc, price, stock, weight, category, brand, condition } =
-      req.body;
+    const files = req.files;
+    const body = req.body;
 
     Product.update(
       {
@@ -141,6 +180,45 @@ class AdminController {
       .catch((err) => {
         res.status(500).json(err);
       });
+
+    const product = await Product.findByPk(id, {
+      include: [Products_image],
+      order: [[Products_image, "id", "ASC"]],
+    });
+
+    const productImages = product.Products_images;
+
+    const totalFiles = files.length;
+
+    // let asd = "ASD BELUM BERUBAH";
+
+    // productImages.forEach((productImage, index) => {
+    //   if (IMAGES[index]) {
+    //     asd = "ASD BERUBAH" + productImage.id;
+    //     Products_image.update(
+    //       {
+    //         fileName: "sssscsacsa",
+    //         // fileName: files[index].filename,
+    //         // fileSize: files[index].size,
+    //         // fileType: files[index].mimetype,
+    //       },
+    //       { where: { id: productImage.id } }
+    //     );
+    //   }
+    // });
+
+    res.json({
+      status: 200,
+      body,
+      // asd,
+      // files,
+      // productImages,
+      // IMAGES,
+    });
+
+    // if(IMAGE0) {
+
+    // }
   }
 
   static deleteProduct(req, res) {

@@ -198,6 +198,9 @@
 
     ```json
     {
+      "totalProduct": 10,
+      "limit": 5,
+      "totalPage": 2,
       "products": [
         {
           "id": 96,

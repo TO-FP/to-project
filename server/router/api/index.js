@@ -21,6 +21,14 @@ route.put(
   MulterSingle("./public/images/avatars/"),
   ApiController.updateProfile
 );
-// route.post("/account/update", ApiController.updateProfile);
+
+// bikin add to cart
+route.post(
+  "/product-details/:id/add-to-cart",
+  userAuth,
+  ApiController.addToCart
+);
+
+route.post("/show-cart", userAuth, ApiController.showCart);
 
 module.exports = route;

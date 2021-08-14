@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const { MulterArray } = require("../../multer");
-const { productAuth } = require("../../middlewares/admin");
+const { productAuth, multerMiddleware } = require("../../middlewares/admin");
 
 const AdminController = require("../../controllers/AdminController");
 
@@ -13,12 +13,13 @@ route.get("/users", AdminController.findAllUser);
 // Products
 route.get("/products", AdminController.findAllProduct);
 route.get("/products/:id", AdminController.findOneProduct);
-route.post(
-  "/products/add",
-  MulterArray("./public/images/"),
-  AdminController.addProduct
+route.post("/products/add", MulterArray(), AdminController.addProduct);
+route.put(
+  "/products/:id/update",
+  productAuth,
+  MulterArray(),
+  AdminController.updateProduct
 );
-route.put("/products/:id/update", productAuth, AdminController.updateProduct);
 route.delete(
   "/products/:id/delete",
   productAuth,
