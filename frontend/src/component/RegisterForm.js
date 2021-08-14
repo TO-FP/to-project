@@ -4,13 +4,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FormGroup } from "react-bootstrap";
 function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState();
   const [type, setType] = useState("user");
 
   const URL = "http://localhost:3000/api";
@@ -24,8 +25,7 @@ function RegisterForm() {
       email === "" ||
       password === "" ||
       gender === "" ||
-      birthdate === "" ||
-      avatar === ""
+      birthdate === ""
     ) {
       alert("Please insert all form");
     } else {
@@ -35,18 +35,21 @@ function RegisterForm() {
         password,
         gender,
         birthdate,
-        avatar,
         type,
       };
+      const data = new FormData();
+      data.append("file", avatar);
 
-      postRegister(registerValue, e);
+      postRegister(registerValue, data, e);
       console.log("click");
     }
   };
 
-  const postRegister = async (item, e) => {
+  // console.log(avatar);
+
+  const postRegister = async (item, data, e) => {
     try {
-      const { name, email, password, gender, birthdate, avatar, type } = item;
+      const { name, email, password, gender, birthdate, type } = item;
 
       await axios({
         method: "POST",
@@ -57,7 +60,7 @@ function RegisterForm() {
           password,
           gender,
           birthdate,
-          avatar,
+          data,
           type,
         },
       });
@@ -129,17 +132,15 @@ function RegisterForm() {
             <option value="Rather Not to Say">Rather Not to Say</option>
           </select>
 
-          <label for="exampleFormControlInput1" class="form-label">
-            Image URL
+          <label for="inputGroupFile01" class="form-label">
+            Upload Image File
           </label>
           <input
-            type="text"
+            type="file"
             class="form-control"
-            id="exampleFormControlInput1"
-            placeholder="name@example.com"
-            onChange={(e) => setAvatar(e.target.value)}
+            id="inputGroupFile01"
+            onChange={(e) => setAvatar(e.target.files[0])}
           />
-          <input type="file" class="form-control" id="inputGroupFile01" />
 
           <label for="exampleFormControlInput1" class="form-label">
             Type

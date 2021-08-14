@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css";
-import { TableCart } from "../component";
+import { Blocking, TableCart } from "../component";
 import { NavbarAfterLogIn } from "../component";
 
 function Cart() {
@@ -9,7 +9,19 @@ function Cart() {
       <div class="container-lg title">
         <h1>CART</h1>
       </div>
-
+      <div className="checkAll">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckChecked"
+          />
+          <label class="form-check-label" for="flexCheckChecked">
+            Check All Product in Store
+          </label>
+        </div>
+      </div>
       <table class="table table-borderless cart-table">
         <thead className="head-table">
           <tr className="table-secondary">
@@ -19,6 +31,7 @@ function Cart() {
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
             <th scope="col">amount</th>
+            <th scope="col">Check</th>
           </tr>
         </thead>
         <TableCart />

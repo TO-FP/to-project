@@ -4,6 +4,8 @@ import { NavbarAfterLogIn } from "../component";
 import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
+
 function Profile() {
   // console.log(nameProfile);
 
@@ -13,7 +15,11 @@ function Profile() {
     birthdate: "",
     gender: "",
   });
+  const nameProfile = JSON.parse(localStorage.getItem("user_data"));
 
+  useEffect(() => {
+    setProfile({ ...nameProfile });
+  }, []);
   const [pict, setPict] = useState();
 
   // console.log(pict);
@@ -21,37 +27,44 @@ function Profile() {
   // const user = localStorage;
   // console.log(user);
   // console.log(profile);
+  // console.log(profile.gender);
+
+  // console.log(profile);
+  console.log(profile);
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log(profile);
-    const pro = new FormData();
-    pro.append("body", profile);
-    // console.log(pro);
-    editProfile(pro);
+
+    // console.log(profile.gender);
+
     const data = new FormData();
     data.append("file", pict);
+    data.append("name", profile.name);
+    data.append("birthdate", profile.birthdate);
+    data.append("gender", profile.gender);
     // console.log(data);
-    editPhoto(data);
+    // data.append(profile);
+    editProfile(data);
+    // editPhoto(data);
   };
 
   // console.log(profile);
-  const nameProfile = JSON.parse(localStorage.getItem("user_data"));
+
+  // console.log(nameProfile);
   const token = localStorage.getItem("access_token");
   // console.log(nameProfile);
+  // console.log(token);
 
-  const editProfile = async (profile) => {
+  const editProfile = async (data) => {
     try {
-      const { name, gender, birthdate } = profile;
       await axios({
         method: "PUT",
         url: `${URL}/account/update`,
-        data: profile,
+        data: data,
         headers: {
           "Content-Type": "multipart/form-data",
           access_token: token,
         },
       });
-      console.log(profile);
       Swal.fire("Post Items", "Items have been submitted", "success");
     } catch (err) {
       // console.log(profile);
@@ -78,8 +91,10 @@ function Profile() {
 
   return (
     <>
-      <div>
-        <h1>Profile</h1>
+      <div className="container-lg profile">
+        <div class="title">
+          <h1>Profile</h1>
+        </div>
         <div class="container-lg">
           <div class="row">
             <div class="col">
@@ -115,9 +130,17 @@ function Profile() {
                       class="form-control-plaintext"
                       id="staticEmail"
                       defaultValue={nameProfile.name}
-                      onChange={(e) =>
-                        setProfile({ ...profile, name: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "") {
+                          setProfile({
+                            ...profile,
+                            name: nameProfile.name,
+                          });
+                        } else {
+                          setProfile({ ...profile, name: e.target.value });
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -159,9 +182,17 @@ function Profile() {
                       class="form-control-plaintext"
                       id="staticEmail"
                       defaultValue={nameProfile.gender}
-                      onChange={(e) =>
-                        setProfile({ ...profile, gender: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "") {
+                          setProfile({
+                            ...profile,
+                            gender: nameProfile.gender,
+                          });
+                        } else {
+                          setProfile({ ...profile, gender: e.target.value });
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -175,9 +206,17 @@ function Profile() {
                       class="form-control-plaintext"
                       id="staticEmail"
                       defaultValue={nameProfile.birthdate}
-                      onChange={(e) =>
-                        setProfile({ ...profile, birthdate: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "") {
+                          setProfile({
+                            ...profile,
+                            birthdate: nameProfile.birthdate,
+                          });
+                        } else {
+                          setProfile({ ...profile, birthdate: e.target.value });
+                        }
+                      }}
                     />
                   </div>
                 </div>

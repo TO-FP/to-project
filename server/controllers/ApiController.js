@@ -196,15 +196,15 @@ class ApiController {
     }
   }
 
-  static async UserAddProduct(req, res) {
-    try {
-      const { name, desc, price, category, brand, condition, UserId } =
-        req.body;
-      const { stock, weight } = +req.body;
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
+  // static async UserAddProduct(req, res) {
+  //   try {
+  //     const { name, desc, price, category, brand, condition, UserId } =
+  //       req.body;
+  //     const { stock, weight } = +req.body;
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // }
 }
 
 module.exports = ApiController;

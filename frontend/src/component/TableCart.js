@@ -28,6 +28,17 @@ function TableCart() {
           </form>
         </td>
         <td>@mdo</td>
+        <td>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckChecked"
+            />
+            <label class="form-check-label" for="flexCheckChecked"></label>
+          </div>
+        </td>
       </tr>
     </tbody>
   );

@@ -27,6 +27,7 @@ function ProductDetail() {
         url: `${URL}/product-details/${id}`,
       });
       setItem(result.data.product);
+      setItemData(result.data.product);
       // console.log(result);
     } catch (err) {
       console.log(err);
@@ -38,23 +39,8 @@ function ProductDetail() {
   // console.log(item);
 
   const { name, desc, price, weight, category, brand, condition } = item;
-  // console.log(name);
 
-  // console.log(UserId);
-  const [itemData, setItemData] = useState({
-    name: name,
-    desc: desc,
-    price: price,
-    stock: "",
-    weight: weight,
-    category: category,
-    brand: brand,
-    condition: condition,
-    UserId: UserId,
-  });
-
-  // console.log(itemData);
-  console.log(name);
+  const [itemData, setItemData] = useState();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -67,6 +53,13 @@ function ProductDetail() {
       method: "POST",
       url: `${URL}/add-to-cart`,
       data: { UserId },
+    });
+  };
+
+  const postToProduct = async () => {
+    await axios({
+      method: "POST",
+      url: `${URL}/add-to-cart`,
     });
   };
 
