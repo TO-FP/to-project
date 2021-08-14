@@ -139,6 +139,7 @@ function RegisterForm() {
             placeholder="name@example.com"
             onChange={(e) => setAvatar(e.target.value)}
           />
+          <input type="file" class="form-control" id="inputGroupFile01" />
 
           <label for="exampleFormControlInput1" class="form-label">
             Type

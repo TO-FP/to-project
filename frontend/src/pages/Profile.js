@@ -18,24 +18,48 @@ function Profile() {
 
   // console.log(pict);
   // console.log(pict);
-  const user = localStorage;
+  // const user = localStorage;
   // console.log(user);
-
+  // console.log(profile);
   const submitHandler = (e) => {
     e.preventDefault();
-
+    // console.log(profile);
+    const pro = new FormData();
+    pro.append("body", profile);
+    // console.log(pro);
+    editProfile(pro);
     const data = new FormData();
     data.append("file", pict);
     // console.log(data);
-    editProfile(data);
+    editPhoto(data);
   };
 
   // console.log(profile);
   const nameProfile = JSON.parse(localStorage.getItem("user_data"));
   const token = localStorage.getItem("access_token");
-  console.log(nameProfile);
+  // console.log(nameProfile);
 
-  const editProfile = async (data) => {
+  const editProfile = async (profile) => {
+    try {
+      const { name, gender, birthdate } = profile;
+      await axios({
+        method: "PUT",
+        url: `${URL}/account/update`,
+        data: profile,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          access_token: token,
+        },
+      });
+      console.log(profile);
+      Swal.fire("Post Items", "Items have been submitted", "success");
+    } catch (err) {
+      // console.log(profile);
+      console.log(err);
+    }
+  };
+
+  const editPhoto = async (data) => {
     try {
       await axios({
         method: "PUT",

@@ -11,6 +11,7 @@ route.post(
   ApiController.register
 );
 route.post("/login", ApiController.login);
+route.post("/add-to-cart", ApiController.AddToCart);
 route.get("/home-page", ApiController.homePage);
 route.get("/products/:page?", ApiController.productsPage);
 route.get("/product-details/:id", ApiController.productDetailsPage);

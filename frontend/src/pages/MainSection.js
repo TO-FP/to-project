@@ -10,7 +10,7 @@ function MainSection({ login, userLogin }) {
       <NavbarAfterLogIn login={login} userLogin={userLogin} />
       <Switch>
         <Route exact path="/profile" component={Profile}></Route>
-        <Route exact path="/product/:page" component={Product}></Route>
+        <Route exact path="/product/:page?" component={Product}></Route>
         <Route exact path="/cart" component={Cart}></Route>
         <Route exact path="/place_order" component={PlaceOrder}></Route>
         <Route

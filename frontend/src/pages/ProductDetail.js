@@ -33,7 +33,44 @@ function ProductDetail() {
     }
   };
 
-  console.log(item);
+  const cek = localStorage;
+  const UserId = JSON.parse(cek["user_data"]).id;
+  // console.log(item);
+
+  const { name, desc, price, weight, category, brand, condition } = item;
+  // console.log(name);
+
+  // console.log(UserId);
+  const [itemData, setItemData] = useState({
+    name: name,
+    desc: desc,
+    price: price,
+    stock: "",
+    weight: weight,
+    category: category,
+    brand: brand,
+    condition: condition,
+    UserId: UserId,
+  });
+
+  // console.log(itemData);
+  console.log(name);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    postToCart();
+    console.log("click");
+  };
+
+  const postToCart = async () => {
+    await axios({
+      method: "POST",
+      url: `${URL}/add-to-cart`,
+      data: { UserId },
+    });
+  };
+
+  // console.log(item);
   return (
     <div>
       {/* <NavbarAfterLogIn /> */}
@@ -82,6 +119,9 @@ function ProductDetail() {
                   <select
                     class="form-select"
                     aria-label="Default select example"
+                    onChange={(e) =>
+                      setItemData({ ...itemData, stock: e.target.value })
+                    }
                   >
                     <option selected>Select Quantity</option>
                     <option value="1">1</option>
@@ -92,7 +132,11 @@ function ProductDetail() {
                   </select>
                 </div>
                 <div class="col">
-                  <button type="button" class="btn btn-dark">
+                  <button
+                    type="button"
+                    class="btn btn-dark"
+                    onClick={(e) => submitHandler(e)}
+                  >
                     Submit
                   </button>
                 </div>

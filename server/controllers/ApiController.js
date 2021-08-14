@@ -1,7 +1,8 @@
-const { User, Product, Products_image } = require("../models");
+const { User, Product, Products_image, Shopping_cart } = require("../models");
 const bcrypt = require("bcrypt");
 const { decrypter } = require("../helpers/bcrypt");
 const { tokenGenerator, tokenVerifier } = require("../helpers/jwt");
+const shopping_cart = require("../models/shopping_cart");
 
 class ApiController {
   static async register(req, res) {
@@ -136,7 +137,13 @@ class ApiController {
         limit,
         attributes: { exclude: ["UserId"] },
         include: [
-          { model: User, attributes: ["name"] },
+          {
+            model: User,
+            attributes: ["name"],
+            where: {
+              type: "admin",
+            },
+          },
           {
             model: Products_image,
             attributes: ["fileName", "primary"],
@@ -167,6 +174,33 @@ class ApiController {
       res.status(200).json({
         product,
       });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async AddToCart(req, res) {
+    try {
+      const { UserId } = req.body;
+
+      let shopping_cart = await Shopping_cart.create({
+        UserId,
+      });
+
+      // const product = await Product.findByPk(id, )
+      // let userId =
+      res.status(200).json(shopping_cart);
+      // let add = await shopping_cart.create();
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async UserAddProduct(req, res) {
+    try {
+      const { name, desc, price, category, brand, condition, UserId } =
+        req.body;
+      const { stock, weight } = +req.body;
     } catch (err) {
       res.status(500).json(err);
     }
