@@ -325,12 +325,10 @@ class ApiController {
                 ],
               },
             ],
+            order: [["id", "ASC"]],
           },
         ],
-        order: [
-          ["id", "ASC"],
-          [Product, "id", "ASC"],
-        ],
+        order: [["id", "ASC"]],
       });
 
       res.status(200).json({
