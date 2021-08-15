@@ -33,7 +33,9 @@ route.get("/show-cart", userAuth, ApiController.showCart);
 
 route.get("/check-carts/:id", userAuth, ApiController.cartCheckbox);
 // route.get("/carts/:checkbox", userAuth, ApiController.cartCheckboxAll);
-route.delete("/carts/:id/remove", userAuth, ApiController.removeCart);
+route.put("/carts/:id/update-item", userAuth, ApiController.updateCart);
+route.delete("/carts/:id/remove-item", userAuth, ApiController.removeItemCart);
+route.delete("/carts/:id/remove-cart", userAuth, ApiController.removeCart);
 route.get("/checkouts", userAuth, ApiController.checkout);
 
 module.exports = route;

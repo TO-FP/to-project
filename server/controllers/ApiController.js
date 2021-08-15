@@ -347,9 +347,11 @@ class ApiController {
     // const checkbox = req.params.checkbox;
 
     try {
+      const mycart = await Shopping_cart.findByPk(id);
+
       await Shopping_cart.update(
         {
-          status: status === "open" ? "closed" : "open",
+          status: mycart.status === "open" ? "closed" : "open",
         },
         {
           where: {
@@ -423,13 +425,104 @@ class ApiController {
   //   }
   // }
 
+  static async updateCart(req, res) {
+    const id = +req.params.id;
+    const userId = req.userData.id;
+    const qty = +req.body.qty;
+
+    try {
+      const line_item = await Line_item.findByPk(id);
+
+      await Line_item.update({ qty: line_item.qty + qty }, { where: { id } });
+
+      const cart = await Shopping_cart.findAll({
+        where: { UserId: userId },
+        include: [
+          {
+            model: Line_item,
+            include: [
+              {
+                model: Product,
+                include: [
+                  {
+                    model: Products_image,
+                    where: { primary: true },
+                  },
+                ],
+              },
+            ],
+            order: [[Product, "id", "ASC"]],
+          },
+        ],
+        order: [["id", "ASC"]],
+      });
+
+      res.status(200).json({
+        status: 200,
+        message: "Successfully update cart item!",
+        cart,
+      });
+    } catch (err) {}
+  }
+
+  static async removeItemCart(req, res) {
+    const id = +req.params.id;
+    const userId = req.userData.id;
+
+    try {
+      const line_item = await Line_item.findByPk(id);
+
+      const total_line_item = Line_item.findAll({
+        where: { ShoppingCartId: line_item.ShoppingCartId, status: "cart" },
+      });
+
+      await Line_item.destroy({ where: { id } });
+
+      if (total_line_item.length < 1) {
+        await Shopping_cart.destroy({
+          where: { id: line_item.ShoppingCartId },
+        });
+      }
+
+      const cart = await Shopping_cart.findAll({
+        where: { UserId: userId },
+        include: [
+          {
+            model: Line_item,
+            include: [
+              {
+                model: Product,
+                include: [
+                  {
+                    model: Products_image,
+                    where: { primary: true },
+                  },
+                ],
+              },
+            ],
+            order: [[Product, "id", "ASC"]],
+          },
+        ],
+        order: [["id", "ASC"]],
+      });
+
+      res.status(200).json({
+        status: 200,
+        message: "Successfully remove cart item!",
+        cart,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
   static async removeCart(req, res) {
     const id = +req.params.id;
     const userId = req.userData.id;
 
     try {
       const line_items = await Line_item.findAll({
-        where: { ShoppingCartId: id },
+        where: { ShoppingCartId: id, status: "cart" },
       });
 
       if (line_items.length < 1) {
@@ -445,9 +538,32 @@ class ApiController {
 
       await Shopping_cart.destroy({ where: { id } });
 
+      const cart = await Shopping_cart.findAll({
+        where: { UserId: userId },
+        include: [
+          {
+            model: Line_item,
+            include: [
+              {
+                model: Product,
+                include: [
+                  {
+                    model: Products_image,
+                    where: { primary: true },
+                  },
+                ],
+              },
+            ],
+            order: [[Product, "id", "ASC"]],
+          },
+        ],
+        order: [["id", "ASC"]],
+      });
+
       res.status(200).json({
         status: 200,
         message: "Successfully remove cart!",
+        cart,
       });
     } catch (err) {
       res.status(500).json(err);
@@ -541,7 +657,7 @@ class ApiController {
         };
 
         try {
-          await Order.create({
+          const order = await Order.create({
             UserId: userId,
             name: orderName,
             subtotal,
@@ -557,6 +673,7 @@ class ApiController {
           res.json({
             status: 200,
             message: "Checkout success!",
+            order,
           });
         } catch (err) {
           res.status(500).json(err);
