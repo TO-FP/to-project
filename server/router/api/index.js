@@ -31,8 +31,8 @@ route.post(
 
 route.get("/show-cart", userAuth, ApiController.showCart);
 
-route.get("/carts/:id/:checkbox", userAuth, ApiController.cartCheckbox);
-route.get("/carts/:checkbox", userAuth, ApiController.cartCheckboxAll);
+route.get("/check-carts/:id", userAuth, ApiController.cartCheckbox);
+// route.get("/carts/:checkbox", userAuth, ApiController.cartCheckboxAll);
 route.delete("/carts/:id/remove", userAuth, ApiController.removeCart);
 route.get("/checkouts", userAuth, ApiController.checkout);
 

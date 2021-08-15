@@ -344,68 +344,84 @@ class ApiController {
   static async cartCheckbox(req, res) {
     const id = +req.params.id;
     const userId = req.userData.id;
-    const checkbox = req.params.checkbox;
+    // const checkbox = req.params.checkbox;
 
     try {
-      if (checkbox === "open" || checkbox === "closed") {
-        const cart = await Shopping_cart.update(
-          {
-            status: checkbox,
+      await Shopping_cart.update(
+        {
+          status: status === "open" ? "closed" : "open",
+        },
+        {
+          where: {
+            id,
+            UserId: userId,
           },
-          {
-            where: {
-              id,
-              UserId: userId,
-            },
-          }
-        );
+        }
+      );
 
-        res.status(200).json({
-          status: 200,
-          message: "Successfully change status cart!",
-        });
-      } else {
-        throw {
-          status: 404,
-          message: "Invalid status",
-        };
-      }
+      const cart = await Shopping_cart.findAll({
+        where: { UserId: userId },
+        include: [
+          {
+            model: Line_item,
+            include: [
+              {
+                model: Product,
+                include: [
+                  {
+                    model: Products_image,
+                    where: { primary: true },
+                  },
+                ],
+              },
+            ],
+            order: [[Product, "id", "ASC"]],
+          },
+        ],
+        order: [["id", "ASC"]],
+      });
+
+      res.status(200).json({
+        status: 200,
+        message: "Successfully change status cart!",
+        cart,
+      });
     } catch (err) {
       res.status(500).json(err);
     }
   }
 
-  static async cartCheckboxAll(req, res) {
-    const userId = req.userData.id;
-    const checkbox = req.params.checkbox;
+  // static async cartCheckboxAll(req, res) {
+  //   const userId = req.userData.id;
+  //   const checkbox = req.params.checkbox;
 
-    try {
-      if (checkbox === "open" || checkbox === "closed") {
-        const cart = await Shopping_cart.update(
-          {
-            status: checkbox,
-          },
-          {
-            where: {
-              UserId: userId,
-            },
-          }
-        );
+  //   try {
+  //     if (checkbox === "open" || checkbox === "closed") {
+  //       const cart = await Shopping_cart.update(
+  //         {
+  //           status: checkbox,
+  //         },
+  //         {
+  //           where: {
+  //             UserId: userId,
+  //           },
+  //         }
+  //       );
 
-        res.status(200).json({
-          status: 200,
-          message: "Successfully change status cart!",
-        });
-      } else {
-        throw {
-          status: 404,
-          message: "Invalid status",
-        };
-      }
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
+  //       res.status(200).json({
+  //         status: 200,
+  //         message: "Successfully change status cart!",
+  //       });
+  //     } else {
+  //       throw {
+  //         status: 404,
+  //         message: "Invalid status",
+  //       };
+  //     }
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // }
 
   static async removeCart(req, res) {
     const id = +req.params.id;
