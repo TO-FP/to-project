@@ -109,7 +109,7 @@ class AdminController {
         } else {
           Products_image.create({
             ProductId: product.id,
-            fileName: "product-image-placeholder.jpg",
+            fileName: "product-image-placeholder.png",
             fileSize: "22kb",
             fileType: "jpg",
             primary: true,
@@ -155,35 +155,22 @@ class AdminController {
     IMAGES.push(IMAGE2 === "true" ? true : false);
     IMAGES.push(IMAGE3 === "true" ? true : false);
 
-    // res.json({
-    //   IMAGEEE: IMAGES,
-    // });
-
     const files = req.files;
     const body = req.body;
 
-    // Product.update(
-    //   {
-    //     name,
-    //     desc,
-    //     price,
-    //     stock,
-    //     weight,
-    //     category,
-    //     brand,
-    //     condition,
-    //   },
-    //   { where: { id } }
-    // )
-    //   .then(() => {
-    //     res.status(200).json({
-    //       status: 200,
-    //       message: "Product updated successfully!",
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     res.status(500).json(err);
-    //   });
+    await Product.update(
+      {
+        name,
+        desc,
+        price,
+        stock,
+        weight,
+        category,
+        brand,
+        condition,
+      },
+      { where: { id } }
+    );
 
     const productImages = await Products_image.findAll({
       where: { ProductId: 1 },
@@ -203,53 +190,21 @@ class AdminController {
           fileName,
           productId,
         });
-        // await Products_image.update({ fileName }, { where: { id: productId } });
-
         count++;
       }
     });
 
-    // await Products_image.update({ fileName: "sadsadsa" }, { where: { id: 1 } });
-
-    res.json({
-      IMAGEEE: IMAGES,
-      files: files[0].productId,
-      object,
-      count,
+    object.forEach(async (obj) => {
+      await Products_image.update(
+        { fileName: obj.fileName },
+        { where: { id: obj.productId } }
+      );
     });
 
-    const totalFiles = files.length;
-
-    // let asd = "ASD BELUM BERUBAH";
-
-    // productImages.forEach((productImage, index) => {
-    //   if (IMAGES[index]) {
-    //     asd = "ASD BERUBAH" + productImage.id;
-    //     Products_image.update(
-    //       {
-    //         fileName: "sssscsacsa",
-    //         // fileName: files[index].filename,
-    //         // fileSize: files[index].size,
-    //         // fileType: files[index].mimetype,
-    //       },
-    //       { where: { id: productImage.id } }
-    //     );
-    //   }
-    // });
-
-    res.json({
+    res.status(200).json({
       status: 200,
-      count,
-      // body,
-      // asd,
-      // files,
-      // productImages,
-      // IMAGES,
+      message: "Product updated successfully!",
     });
-
-    // if(IMAGE0) {
-
-    // }
   }
 
   static deleteProduct(req, res) {

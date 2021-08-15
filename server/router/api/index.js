@@ -12,9 +12,9 @@ route.post(
 );
 route.post("/login", ApiController.login);
 route.get("/home-page", ApiController.homePage);
-route.get("/products/:page?", ApiController.productsPage);
+route.post("/products/:page?", ApiController.productsPage);
 route.get("/product-details/:id", ApiController.productDetailsPage);
-route.get("/products-by/:UserId", ApiController.productsByUser);
+route.post("/products-by/:UserId/:page?", ApiController.productsByUser);
 
 route.put(
   "/account/update",

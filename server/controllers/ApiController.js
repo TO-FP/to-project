@@ -146,9 +146,9 @@ class ApiController {
     let order = [];
 
     if (sort === "newest") {
-      order = ["id", "ASC"];
+      order = ["createdAt", "ASC"];
     } else if (sort === "oldest") {
-      order = ["id", "DESC"];
+      order = ["createdAt", "DESC"];
     } else if (sort === "low-price") {
       order = ["price", "ASC"];
     } else if (sort === "high-price") {
@@ -169,7 +169,6 @@ class ApiController {
       const products = await Product.findAll({
         offset,
         limit,
-        attributes: { exclude: ["UserId"] },
         include: [
           { model: User, attributes: ["name"] },
           {
@@ -216,12 +215,38 @@ class ApiController {
   }
 
   static async productsByUser(req, res) {
-    const UserId = +req.params.UserId;
+    let { UserId, page } = req.params;
+    let { limit, sort } = req.body;
+    if (!page) page = 1;
+    if (!limit) limit = 9;
+
+    let order = [];
+
+    if (sort === "newest") {
+      order = ["createdAt", "ASC"];
+    } else if (sort === "oldest") {
+      order = ["createdAt", "DESC"];
+    } else if (sort === "low-price") {
+      order = ["price", "ASC"];
+    } else if (sort === "high-price") {
+      order = ["price", "DESC"];
+    } else if (sort === "total-sold") {
+      order = ["totalSold", "ASC"];
+    } else if (sort === "rating") {
+      order = ["rating", "ASC"];
+    } else {
+      order = ["id", "ASC"];
+    }
+
+    const totalProduct = await Product.findAll();
+    const totalPage = Math.ceil(totalProduct.length / limit);
+    const offset = (page - 1) * limit;
+
     try {
-      const limit = 9;
       const products = await Product.findAll({
-        where: { UserId },
+        offset,
         limit,
+        where: { UserId },
         include: [
           { model: User, attributes: ["name"] },
           {
@@ -229,9 +254,12 @@ class ApiController {
             attributes: ["fileName", "primary"],
           },
         ],
-        order: [["id", "ASC"]],
+        order: [order],
       });
       res.status(200).json({
+        totalProduct: totalProduct.length,
+        limit,
+        totalPage,
         products,
       });
     } catch (err) {
@@ -437,17 +465,17 @@ class ApiController {
     try {
       const line_item = await Line_item.findByPk(id);
 
-      const total_line_item = Line_item.findAll({
+      const total_line_item = await Line_item.findAll({
         where: { ShoppingCartId: line_item.ShoppingCartId, status: "cart" },
       });
 
-      await Line_item.destroy({ where: { id } });
-
-      if (total_line_item.length < 1) {
+      if (total_line_item.length === 1) {
         await Shopping_cart.destroy({
           where: { id: line_item.ShoppingCartId },
         });
       }
+
+      await Line_item.destroy({ where: { id } });
 
       res.status(200).json({
         status: 200,
