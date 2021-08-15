@@ -218,7 +218,7 @@ class ApiController {
     let { UserId, page } = req.params;
     let { limit, sort } = req.body;
     if (!page) page = 1;
-    if (!limit) limit = 9;
+    if (!limit) limit = 1;
 
     let order = [];
 
@@ -238,7 +238,7 @@ class ApiController {
       order = ["id", "ASC"];
     }
 
-    const totalProduct = await Product.findAll();
+    const totalProduct = await Product.findAll({ where: { UserId } });
     const totalPage = Math.ceil(totalProduct.length / limit);
     const offset = (page - 1) * limit;
 
@@ -385,6 +385,7 @@ class ApiController {
         include: [
           {
             model: Line_item,
+            where: { status: "cart" },
             include: [
               {
                 model: Product,
@@ -551,7 +552,7 @@ class ApiController {
       shoppingCart.Line_items.forEach((line_item) => {
         const total = line_item.qty * line_item.Product.price;
         tempSubTotal += total;
-        qty += 1;
+        qty++;
       });
 
       subTotal += tempSubTotal;
@@ -609,86 +610,92 @@ class ApiController {
         order: [["id", "ASC"]],
       });
 
+      const rand = Math.round(Math.random() * 899999 + 100000);
+      const payTrx = randomstring.generate();
+      const OrderName = `HS-INV/${userName
+        .substring(0, 3)
+        .toUpperCase()}${rand}RAND`;
+
+      let qty = 0;
+      let subTotal = 0;
+      let totalDue = 0;
+
       shoppingCarts.forEach(async (shoppingCart) => {
-        // keranjang pertama
+        let tempSubTotal = 0;
 
-        const orderName = `HS-INV/SC${shoppingCart.id}${userName
-          .substring(0, 3)
-          .toUpperCase()}`;
-        const payTrx = randomstring.generate();
-        let subtotal = 0;
-
-        shoppingCart.Line_items.forEach((line_item) => {
-          // produk pertama dikeranjang pertama
+        shoppingCart.Line_items.forEach(async (line_item) => {
           const total = line_item.qty * line_item.Product.price;
-          subtotal += total;
+          tempSubTotal += total;
+          qty++;
+
+          await Line_item.update(
+            { status: "checkout", OrderName },
+            { where: { id: line_item.id } }
+          );
         });
 
-        let totalDue = subtotal;
+        subTotal += tempSubTotal;
+      });
 
-        // tax
-        const tax = (10 * totalDue) / 100;
-        totalDue += tax;
+      totalDue = subTotal;
 
-        //disc
-        let discount = 0;
-        if (shoppingCart.Line_items.length > 2) {
-          discount = (5 * totalDue) / 100;
-          totalDue -= discount;
-        }
+      let discount = 0;
+      if (qty > 2) {
+        discount = (5 * totalDue) / 100;
+        totalDue -= discount;
+      }
 
-        await Line_item.update(
-          {
-            orderName,
-          },
-          {
-            where: {
-              ShoppingCartId: shoppingCart.id,
-              status: "cart",
-            },
-          }
-        );
+      const tax = (10 * totalDue) / 100;
+      totalDue += tax;
 
-        const dataOrder = {
-          UserId: userId,
-          name: orderName,
-          subtotal,
-          discount,
-          tax,
-          totalDue,
-          totalQty: shoppingCart.Line_items.length,
-          payTrx,
+      const order = await Order.create({
+        UserId: userId,
+        name: OrderName,
+        subtotal: subTotal,
+        discount,
+        tax,
+        totalDue,
+        totalQty: qty,
+        payTrx,
+        city,
+        address,
+      });
+
+      res.json({
+        status: 200,
+        data: {
+          userId,
+          userName,
           city,
           address,
-        };
+          qty,
+          // shoppingCarts,
+          payTrx,
+          OrderName,
+          totalDue,
+          subTotal,
+        },
+      });
 
-        try {
-          const order = await Order.create({
-            UserId: userId,
-            name: orderName,
-            subtotal,
-            discount,
-            tax,
-            totalDue,
-            totalQty: shoppingCart.Line_items.length,
-            payTrx,
-            city,
-            address,
-          });
-
-          res.json({
-            status: 200,
-            message: "Checkout success!",
-            order,
-          });
-        } catch (err) {
-          res.status(500).json(err);
-        }
+      res.json({
+        status: 200,
+        data: {
+          userId,
+          userName,
+          city,
+          address,
+          // shoppingCarts,
+          payTrx,
+          orderName,
+          totalDue,
+          subTotal,
+        },
       });
 
       res.json({
         status: 200,
         message: "Checkout success!",
+        order,
       });
     } catch (err) {
       res.status(500).json(err);

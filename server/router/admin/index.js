@@ -26,6 +26,8 @@ route.delete(
   AdminController.deleteProduct
 );
 
+route.get("/orders", AdminController.findAllOrder);
+
 // Orders
 
 module.exports = route;

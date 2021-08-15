@@ -8,13 +8,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Order.belongsTo(models.User);
+      Order.hasMany(models.Line_item);
     }
   }
   Order.init(
     {
       UserId: DataTypes.INTEGER,
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
       subtotal: DataTypes.INTEGER,
       discount: DataTypes.INTEGER,
       tax: DataTypes.INTEGER,

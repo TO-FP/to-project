@@ -1,4 +1,11 @@
-const { User, Product, Products_image } = require("../models");
+const {
+  User,
+  Product,
+  Products_image,
+  Order,
+  Line_item,
+  Shopping_cart,
+} = require("../models");
 const { tokenVerifier } = require("../helpers/jwt");
 
 class AdminController {
@@ -96,23 +103,20 @@ class AdminController {
       condition,
     })
       .then((product) => {
-        if (files.length > 0) {
-          files.forEach((file) => {
-            Products_image.create({
-              ProductId: product.id,
-              fileName: file.filename,
-              fileSize: file.size,
-              fileType: file.mimetype,
-              primary: true,
-            });
-          });
-        } else {
+        for (let i = 0; i < 4; i++) {
+          const fileName = files[i]
+            ? files[i].filename
+            : "product-image-placeholder.png";
+          const fileSize = files[i] ? files[i].size : "22kb";
+          const fileType = files[i] ? files[i].mimetype : ".png";
+          const primary = i === 0 ? true : false;
+
           Products_image.create({
             ProductId: product.id,
-            fileName: "product-image-placeholder.png",
-            fileSize: "22kb",
-            fileType: "jpg",
-            primary: true,
+            fileName,
+            fileSize,
+            fileType,
+            primary,
           });
         }
 
@@ -173,7 +177,7 @@ class AdminController {
     );
 
     const productImages = await Products_image.findAll({
-      where: { ProductId: 1 },
+      where: { ProductId: id },
       order: [["id", "ASC"]],
     });
 
@@ -203,14 +207,19 @@ class AdminController {
 
     res.status(200).json({
       status: 200,
+      object,
       message: "Product updated successfully!",
     });
   }
 
-  static deleteProduct(req, res) {
+  static async deleteProduct(req, res) {
     const id = +req.params.id;
 
-    Product.destroy({ where: { id } })
+    await Products_image.destroy({
+      where: { ProductId: id },
+    });
+
+    await Product.destroy({ where: { id } })
       .then(() => {
         res.status(200).json({
           status: 200,
@@ -220,6 +229,34 @@ class AdminController {
       .catch((err) => {
         res.status(500).json(err);
       });
+  }
+
+  static async findAllOrder(req, res) {
+    const userId = req.userData.id;
+
+    try {
+      const order = await Order.findAll({
+        include: [
+          {
+            model: Line_item,
+            include: [
+              {
+                model: Product,
+                where: { UserId: userId },
+              },
+            ],
+          },
+        ],
+      });
+
+      res.json({
+        status: 200,
+        message: " Data orders has been displayed successfully!",
+        order,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 }
 

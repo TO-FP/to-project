@@ -40,6 +40,6 @@ route.delete("/carts/:id/remove-cart", userAuth, ApiController.removeCart);
 
 // checkout
 route.get("/order-summary", userAuth, ApiController.orderSummary);
-route.get("/checkouts", userAuth, ApiController.checkout);
+route.post("/checkouts", userAuth, ApiController.checkout);
 
 module.exports = route;
