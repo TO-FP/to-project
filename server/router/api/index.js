@@ -12,7 +12,7 @@ route.post(
 );
 route.post("/login", ApiController.login);
 route.get("/home-page", ApiController.homePage);
-route.get("/products/:limit?/:page?/:sort?", ApiController.productsPage);
+route.get("/products/:page?", ApiController.productsPage);
 route.get("/product-details/:id", ApiController.productDetailsPage);
 route.get("/products-by/:UserId", ApiController.productsByUser);
 

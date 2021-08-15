@@ -49,7 +49,8 @@ const MulterArray = () => {
 
       const mimetype = file.mimetype.split("/");
 
-      cb(null, name[0].toLowerCase() + "-" + Date.now() + "." + mimetype[1]);
+      cb(null, file.originalname);
+      // cb(null, name[0].toLowerCase() + "-" + Date.now() + "." + mimetype[1]);
     },
   });
   var upload = multer({

@@ -138,9 +138,10 @@ class ApiController {
   }
 
   static async productsPage(req, res) {
-    let { page, limit, sort } = req.params;
-    if (!limit) limit = 9;
+    let { page } = req.params;
+    let { limit, sort } = req.body;
     if (!page) page = 1;
+    if (!limit) limit = 9;
 
     let order = [];
 

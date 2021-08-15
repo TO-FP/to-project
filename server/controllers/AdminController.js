@@ -155,38 +155,68 @@ class AdminController {
     IMAGES.push(IMAGE2 === "true" ? true : false);
     IMAGES.push(IMAGE3 === "true" ? true : false);
 
+    // res.json({
+    //   IMAGEEE: IMAGES,
+    // });
+
     const files = req.files;
     const body = req.body;
 
-    Product.update(
-      {
-        name,
-        desc,
-        price,
-        stock,
-        weight,
-        category,
-        brand,
-        condition,
-      },
-      { where: { id } }
-    )
-      .then(() => {
-        res.status(200).json({
-          status: 200,
-          message: "Product updated successfully!",
-        });
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
+    // Product.update(
+    //   {
+    //     name,
+    //     desc,
+    //     price,
+    //     stock,
+    //     weight,
+    //     category,
+    //     brand,
+    //     condition,
+    //   },
+    //   { where: { id } }
+    // )
+    //   .then(() => {
+    //     res.status(200).json({
+    //       status: 200,
+    //       message: "Product updated successfully!",
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     res.status(500).json(err);
+    //   });
 
-    const product = await Product.findByPk(id, {
-      include: [Products_image],
-      order: [[Products_image, "id", "ASC"]],
+    const productImages = await Products_image.findAll({
+      where: { ProductId: 1 },
+      order: [["id", "ASC"]],
     });
 
-    const productImages = product.Products_images;
+    let count = 0;
+
+    const object = [];
+
+    IMAGES.forEach(async (IMAGE, index) => {
+      if (IMAGE) {
+        const fileName = files[count].filename;
+        const productId = productImages[index].id;
+
+        object.push({
+          fileName,
+          productId,
+        });
+        // await Products_image.update({ fileName }, { where: { id: productId } });
+
+        count++;
+      }
+    });
+
+    // await Products_image.update({ fileName: "sadsadsa" }, { where: { id: 1 } });
+
+    res.json({
+      IMAGEEE: IMAGES,
+      files: files[0].productId,
+      object,
+      count,
+    });
 
     const totalFiles = files.length;
 
@@ -209,7 +239,8 @@ class AdminController {
 
     res.json({
       status: 200,
-      body,
+      count,
+      // body,
       // asd,
       // files,
       // productImages,
