@@ -14,6 +14,7 @@ route.post("/login", ApiController.login);
 route.get("/home-page", ApiController.homePage);
 route.get("/products/:limit?/:page?/:sort?", ApiController.productsPage);
 route.get("/product-details/:id", ApiController.productDetailsPage);
+route.get("/products-by/:UserId", ApiController.productsByUser);
 
 route.put(
   "/account/update",
@@ -37,6 +38,7 @@ route.put("/carts/:id/update-item", userAuth, ApiController.updateCart);
 route.delete("/carts/:id/remove-item", userAuth, ApiController.removeItemCart);
 route.delete("/carts/:id/remove-cart", userAuth, ApiController.removeCart);
 
+// checkout
 route.get("/order-summary", userAuth, ApiController.orderSummary);
 route.get("/checkouts", userAuth, ApiController.checkout);
 

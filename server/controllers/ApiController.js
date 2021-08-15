@@ -214,6 +214,30 @@ class ApiController {
     }
   }
 
+  static async productsByUser(req, res) {
+    const UserId = +req.params.UserId;
+    try {
+      const limit = 9;
+      const products = await Product.findAll({
+        where: { UserId },
+        limit,
+        include: [
+          { model: User, attributes: ["name"] },
+          {
+            model: Products_image,
+            attributes: ["fileName", "primary"],
+          },
+        ],
+        order: [["id", "ASC"]],
+      });
+      res.status(200).json({
+        products,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
   static async addToCart(req, res) {
     try {
       const userId = req.userData.id;
