@@ -325,10 +325,12 @@ class ApiController {
                 ],
               },
             ],
-            order: [[Product, "id", "ASC"]],
           },
         ],
-        order: [["id", "ASC"]],
+        order: [
+          ["id", "ASC"],
+          [Product, "id", "ASC"],
+        ],
       });
 
       res.status(200).json({
@@ -433,7 +435,7 @@ class ApiController {
     try {
       const line_item = await Line_item.findByPk(id);
 
-      await Line_item.update({ qty: line_item.qty + qty }, { where: { id } });
+      await Line_item.update({ qty }, { where: { id } });
 
       const cart = await Shopping_cart.findAll({
         where: { UserId: userId },
