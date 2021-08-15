@@ -14,6 +14,7 @@ import OrderForm from "./OrderForm";
 import OrderSummary from "./OrderSummary";
 import Blocking from "./Blocking";
 import ProductCard from "./ProductCard";
+import Checkbox from "./Checkbox";
 export {
   Logo,
   NavBar,
@@ -24,11 +25,12 @@ export {
   RegisterForm,
   Buttons,
   TableCart,
-  ProfilePhoto,
+  // ProfilePhoto,
   ProfileSummary,
   OrderForm,
   OrderSummary,
   NavbarAfterLogIn,
   Blocking,
   ProductCard,
+  Checkbox,
 };

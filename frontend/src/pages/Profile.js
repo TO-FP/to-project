@@ -96,7 +96,7 @@ function Profile() {
           <h1>Profile</h1>
         </div>
         <div class="container-lg">
-          <div class="row">
+          <div class="full-profile">
             <div class="col">
               <div className="container">
                 <img
@@ -105,20 +105,23 @@ function Profile() {
 `}
                   alt=""
                 />
-                <div class="input-group mb-3">
-                  <input
-                    type="file"
-                    class="form-control"
-                    id="inputGroupFile01"
-                    onChange={(e) => setPict(e.target.files[0])}
-                  />
+                <div class="container">
+                  <div class="input-group mb-3 upload-foto">
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="inputGroupFile01"
+                      onChange={(e) => setPict(e.target.files[0])}
+                    />
+                  </div>
                 </div>
+
                 {/* <h1>PP</h1> */}
               </div>
             </div>
             {/* <ProfileSummary /> */}
 
-            <div class="col">
+            <div class="col pp-summary">
               <form>
                 <div class="form-group row">
                   <label for="staticEmail" class="col-sm-2 col-form-label">
@@ -176,7 +179,7 @@ function Profile() {
                     Gender
                   </label>
                   <div class="col-sm-10">
-                    <input
+                    {/* <input
                       type="text"
                       readonly
                       class="form-control-plaintext"
@@ -193,7 +196,32 @@ function Profile() {
                           setProfile({ ...profile, gender: e.target.value });
                         }
                       }}
-                    />
+                    /> */}
+
+                    <select
+                      class="form-select form-select-sm"
+                      aria-label=".form-select-sm example"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "") {
+                          setProfile({
+                            ...profile,
+                            gender: nameProfile.gender,
+                          });
+                        } else {
+                          setProfile({ ...profile, gender: e.target.value });
+                        }
+                      }}
+                    >
+                      <option defaultValue="" selected>
+                        Select Gender
+                      </option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Rather not to Say">
+                        Rather not to Say
+                      </option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-group row">

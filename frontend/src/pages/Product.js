@@ -141,15 +141,16 @@ function Product() {
                   3
                 </Link>
               </div> */}
-
-              <ReactPaginate
-                previousLabel={"prev"}
-                nextLabel={"next"}
-                pageCount={productPage.totalPage}
-                onPageChange={(event) => handlePageClick(event)}
-                containerClassName={"pagination"}
-                activeClassName={"active"}
-              />
+              <div class="container">
+                <ReactPaginate
+                  previousLabel={"prev"}
+                  nextLabel={"next"}
+                  pageCount={productPage.totalPage}
+                  onPageChange={(event) => handlePageClick(event)}
+                  containerClassName={"pagination"}
+                  activeClassName={"active"}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
+// import Slider from "react-slick";
+import { Slide } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
+
 import "../App.css";
 import { NavbarAfterLogIn } from "../component";
 
@@ -14,6 +18,7 @@ function ProductDetail() {
   const productId = +params.id;
   // console.log(id);
   const URL = "http://localhost:3000/api";
+  const [image, setImages] = useState([]);
 
   // console.log(URL);
 
@@ -29,12 +34,14 @@ function ProductDetail() {
       });
       setItem(result.data.product);
       setItemData(result.data.product);
+      setImages(result.data.product.Products_images);
       // console.log(result);
     } catch (err) {
       console.log(err);
     }
   };
 
+  // console.log(image);
   const cek = localStorage;
   // const userId = JSON.parse(cek["user_data"]).id;
   // const userName = JSON.parse(cek["user_data"]).name;
@@ -69,21 +76,40 @@ function ProductDetail() {
     Swal.fire("Added to Cart");
   };
   // console.log(typeof qty);
-  // console.log(item);
+  // console.log(item.desc);
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 3,
+  };
   return (
     <div>
       {/* <NavbarAfterLogIn /> */}
+
       <div class="container-lg title">
         <h1>{item.name}</h1>
       </div>
       <div class="container-lg detail">
-        <div class="row">
-          <div class="col-sm-4">
-            <img
-              className="product-img"
-              src="https://images.unsplash.com/photo-1543508282-5c1f427f023f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=658&q=80"
-              alt=""
-            />
+        <div class="row ">
+          <div class="container col-sm-4">
+            {image.length > 0 && (
+              <Slide easing="ease">
+                {image.map((i, idx) => {
+                  return (
+                    <div class="slides" key={idx}>
+                      <img
+                        key={idx}
+                        className=""
+                        src={`http://localhost:3000/images/products/${i.fileName}`}
+                        alt=""
+                      />
+                    </div>
+                  );
+                })}
+              </Slide>
+            )}
           </div>
           <div class="col-sm-4">
             <h5>Description : </h5>

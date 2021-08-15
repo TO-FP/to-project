@@ -5,7 +5,7 @@ function ProductCard({ item, price, brand, img, id, toko }) {
 
   return (
     <div class="card">
-      <img src={`${img}`} alt="..." />
+      <img src={`http://localhost:3000/images/products/${img}`} alt="..." />
       <div class="card-body">
         <h5 class="card-title">{item}</h5>
         <p class="card-text">Seller: {toko}</p>
