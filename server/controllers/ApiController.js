@@ -117,11 +117,8 @@ class ApiController {
     try {
       const limit = 3;
 
-      const totalProduct = await Product.findAll();
-      const totalPage = Math.ceil(totalProduct.length / limit);
       const products = await Product.findAll({
-        order: [["id", "ASC"]],
-        limit: limit,
+        limit,
         attributes: { exclude: ["UserId"] },
         include: [
           { model: User, attributes: ["name"] },
@@ -130,11 +127,9 @@ class ApiController {
             attributes: ["fileName", "primary"],
           },
         ],
+        order: [["id", "ASC"]],
       });
       res.status(200).json({
-        totalProduct: totalProduct.length,
-        limit,
-        totalPage,
         products,
       });
     } catch (err) {
@@ -143,15 +138,34 @@ class ApiController {
   }
 
   static async productsPage(req, res) {
-    let page = +req.params.page;
+    let { page, limit, sort } = req.params;
+    if (!limit) limit = 9;
     if (!page) page = 1;
-    const limit = 10;
 
+    let order = [];
+
+    if (sort === "newest") {
+      order = ["id", "ASC"];
+    } else if (sort === "oldest") {
+      order = ["id", "DESC"];
+    } else if (sort === "low-price") {
+      order = ["price", "ASC"];
+    } else if (sort === "high-price") {
+      order = ["price", "DESC"];
+    } else if (sort === "total-sold") {
+      order = ["totalSold", "ASC"];
+    } else if (sort === "rating") {
+      order = ["rating", "ASC"];
+    } else {
+      order = ["id", "ASC"];
+    }
+
+    const totalProduct = await Product.findAll();
+    const totalPage = Math.ceil(totalProduct.length / limit);
     const offset = (page - 1) * limit;
 
     try {
       const products = await Product.findAll({
-        order: [["id", "ASC"]],
         offset,
         limit,
         attributes: { exclude: ["UserId"] },
@@ -162,8 +176,12 @@ class ApiController {
             attributes: ["fileName", "primary"],
           },
         ],
+        order: [order],
       });
       res.status(200).json({
+        totalProduct: totalProduct.length,
+        limit,
+        totalPage,
         products,
       });
     } catch (err) {
@@ -361,69 +379,14 @@ class ApiController {
         }
       );
 
-      const cart = await Shopping_cart.findAll({
-        where: { UserId: userId },
-        include: [
-          {
-            model: Line_item,
-            include: [
-              {
-                model: Product,
-                include: [
-                  {
-                    model: Products_image,
-                    where: { primary: true },
-                  },
-                ],
-              },
-            ],
-            order: [[Product, "id", "ASC"]],
-          },
-        ],
-        order: [["id", "ASC"]],
-      });
-
       res.status(200).json({
         status: 200,
         message: "Successfully change status cart!",
-        cart,
       });
     } catch (err) {
       res.status(500).json(err);
     }
   }
-
-  // static async cartCheckboxAll(req, res) {
-  //   const userId = req.userData.id;
-  //   const checkbox = req.params.checkbox;
-
-  //   try {
-  //     if (checkbox === "open" || checkbox === "closed") {
-  //       const cart = await Shopping_cart.update(
-  //         {
-  //           status: checkbox,
-  //         },
-  //         {
-  //           where: {
-  //             UserId: userId,
-  //           },
-  //         }
-  //       );
-
-  //       res.status(200).json({
-  //         status: 200,
-  //         message: "Successfully change status cart!",
-  //       });
-  //     } else {
-  //       throw {
-  //         status: 404,
-  //         message: "Invalid status",
-  //       };
-  //     }
-  //   } catch (err) {
-  //     res.status(500).json(err);
-  //   }
-  // }
 
   static async updateCart(req, res) {
     const id = +req.params.id;
@@ -435,32 +398,9 @@ class ApiController {
 
       await Line_item.update({ qty }, { where: { id } });
 
-      const cart = await Shopping_cart.findAll({
-        where: { UserId: userId },
-        include: [
-          {
-            model: Line_item,
-            include: [
-              {
-                model: Product,
-                include: [
-                  {
-                    model: Products_image,
-                    where: { primary: true },
-                  },
-                ],
-              },
-            ],
-            order: [[Product, "id", "ASC"]],
-          },
-        ],
-        order: [["id", "ASC"]],
-      });
-
       res.status(200).json({
         status: 200,
         message: "Successfully update cart item!",
-        cart,
       });
     } catch (err) {}
   }
@@ -484,32 +424,9 @@ class ApiController {
         });
       }
 
-      const cart = await Shopping_cart.findAll({
-        where: { UserId: userId },
-        include: [
-          {
-            model: Line_item,
-            include: [
-              {
-                model: Product,
-                include: [
-                  {
-                    model: Products_image,
-                    where: { primary: true },
-                  },
-                ],
-              },
-            ],
-            order: [[Product, "id", "ASC"]],
-          },
-        ],
-        order: [["id", "ASC"]],
-      });
-
       res.status(200).json({
         status: 200,
         message: "Successfully remove cart item!",
-        cart,
       });
     } catch (err) {
       res.status(500).json(err);
@@ -538,36 +455,74 @@ class ApiController {
 
       await Shopping_cart.destroy({ where: { id } });
 
-      const cart = await Shopping_cart.findAll({
-        where: { UserId: userId },
-        include: [
-          {
-            model: Line_item,
-            include: [
-              {
-                model: Product,
-                include: [
-                  {
-                    model: Products_image,
-                    where: { primary: true },
-                  },
-                ],
-              },
-            ],
-            order: [[Product, "id", "ASC"]],
-          },
-        ],
-        order: [["id", "ASC"]],
-      });
-
       res.status(200).json({
         status: 200,
         message: "Successfully remove cart!",
-        cart,
       });
     } catch (err) {
       res.status(500).json(err);
     }
+  }
+
+  static async orderSummary(req, res) {
+    const userId = req.userData.id;
+    const userName = req.userData.name;
+
+    const shoppingCarts = await Shopping_cart.findAll({
+      where: { UserId: userId, status: "open" },
+      attributes: ["id"],
+      include: [
+        {
+          model: Line_item,
+          where: { status: "cart" },
+          attributes: ["id", "ShoppingCartId", "ProductId", "qty"],
+          include: [
+            {
+              model: Product,
+              attributes: ["id", "name", "price", "category", "brand"],
+            },
+          ],
+          order: [["id", "ASC"]],
+        },
+      ],
+      order: [["id", "ASC"]],
+    });
+
+    let qty = 0;
+    let subTotal = 0;
+    let totalDue = 0;
+
+    shoppingCarts.forEach(async (shoppingCart) => {
+      let tempSubTotal = 0;
+
+      shoppingCart.Line_items.forEach((line_item) => {
+        const total = line_item.qty * line_item.Product.price;
+        tempSubTotal += total;
+        qty += 1;
+      });
+
+      subTotal += tempSubTotal;
+    });
+
+    totalDue = subTotal;
+
+    let discount = 0;
+    if (qty > 2) {
+      discount = (5 * totalDue) / 100;
+      totalDue -= discount;
+    }
+    const tax = (10 * totalDue) / 100;
+    totalDue += tax;
+
+    res.status(200).json({
+      status: 200,
+      message: "Order summary displayed successfully!",
+      shoppingCarts,
+      subTotal,
+      discount,
+      tax,
+      totalDue,
+    });
   }
 
   static async checkout(req, res) {
@@ -595,12 +550,10 @@ class ApiController {
                 model: Product,
               },
             ],
+            order: [["id", "ASC"]],
           },
         ],
-        order: [
-          ["id", "ASC"],
-          [Line_item, "id", "ASC"],
-        ],
+        order: [["id", "ASC"]],
       });
 
       shoppingCarts.forEach(async (shoppingCart) => {
@@ -652,8 +605,8 @@ class ApiController {
           totalDue,
           totalQty: shoppingCart.Line_items.length,
           payTrx,
-          city: "Jakarta",
-          address: "Jl. Radio Dalam",
+          city,
+          address,
         };
 
         try {

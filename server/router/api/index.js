@@ -12,7 +12,7 @@ route.post(
 );
 route.post("/login", ApiController.login);
 route.get("/home-page", ApiController.homePage);
-route.get("/products/:page?", ApiController.productsPage);
+route.get("/products/:limit?/:page?/:sort?", ApiController.productsPage);
 route.get("/product-details/:id", ApiController.productDetailsPage);
 
 route.put(
@@ -31,11 +31,13 @@ route.post(
 
 route.get("/show-cart", userAuth, ApiController.showCart);
 
-route.get("/check-carts/:id", userAuth, ApiController.cartCheckbox);
+route.put("/check-carts/:id", userAuth, ApiController.cartCheckbox);
 // route.get("/carts/:checkbox", userAuth, ApiController.cartCheckboxAll);
 route.put("/carts/:id/update-item", userAuth, ApiController.updateCart);
 route.delete("/carts/:id/remove-item", userAuth, ApiController.removeItemCart);
 route.delete("/carts/:id/remove-cart", userAuth, ApiController.removeCart);
+
+route.get("/order-summary", userAuth, ApiController.orderSummary);
 route.get("/checkouts", userAuth, ApiController.checkout);
 
 module.exports = route;
