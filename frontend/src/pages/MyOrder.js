@@ -43,7 +43,7 @@ function MyOrder() {
           // let [...item] = cart.Line_items;
 
           return (
-            <>
+            <div className="container-sm ">
               <div class="row">
                 <div class="col">
                   <p>
@@ -139,7 +139,7 @@ function MyOrder() {
                 </div>
               </div>
               <hr />
-            </>
+            </div>
           );
         })}
 

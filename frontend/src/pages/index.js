@@ -9,6 +9,8 @@ import Product from "./Product";
 import MainSection from "./MainSection";
 import ProductByUserId from "./ProductByUserId";
 import MyOrder from "./MyOrder";
+import MyCart from "./MyCart";
+import Payment from "./Payment";
 export {
   Home,
   Login,
@@ -21,4 +23,6 @@ export {
   MainSection,
   ProductByUserId,
   MyOrder,
+  MyCart,
+  Payment,
 };

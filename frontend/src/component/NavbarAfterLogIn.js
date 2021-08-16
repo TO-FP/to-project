@@ -25,11 +25,11 @@ function NavbarAfterLogIn({ login, userLogin }) {
   };
 
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg  ">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <Link class="navbar-brand" to="/product">
           HackShoes
-        </a>
+        </Link>
         <button
           class="navbar-toggler"
           type="button"
@@ -61,6 +61,11 @@ function NavbarAfterLogIn({ login, userLogin }) {
             <li class="nav-item">
               <Link class="nav-link" to="/myorder">
                 My Order
+              </Link>
+            </li>
+            <li class="nav-item">
+              <Link class="nav-link" to="/payment">
+                Payment
               </Link>
             </li>
           </ul>

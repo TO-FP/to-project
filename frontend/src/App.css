@@ -303,3 +303,57 @@ div.summary-order {
 .my-order {
   margin-top: 50px;
 }
+
+.payment {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+
+  border: #282c34 solid 1px;
+}
+
+.payment div {
+  padding: 6px;
+}
+.details td {
+  padding-top: 0.75rem;
+}
+
+.per-myorder {
+  padding: 10px;
+}
+
+button.confirm-order {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.slide-show {
+  margin-top: 20px;
+  height: 800px;
+  box-sizing: border-box;
+}
+
+.slide-show img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  /* position: center; */
+}
+
+.footer {
+  margin-top: 20px;
+  padding-top: 5px;
+  color: white;
+  background-color: rgb(241, 241, 236);
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: black;
+}
+
+/* .footer img {
+  width: 80%;
+} */

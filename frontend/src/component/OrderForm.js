@@ -29,7 +29,7 @@ function OrderForm() {
       // console.log(fullAddress);
       getCheckout(city, fullAddress);
       Swal.fire("Success");
-      history.push("/myorder");
+      history.push("/payment");
     } else {
       Swal.fire("Please insert your form");
     }

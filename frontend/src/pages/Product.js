@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Slide } from "react-slideshow-image";
 import {
   ButtonDropdown,
   DropdownToggle,
@@ -87,6 +88,35 @@ function Product() {
   return (
     <div>
       {/* <NavbarAfterLogIn /> */}
+      <div class="container-lg">
+        {/* <img src="" alt=""> */}
+        <Slide easing="ease">
+          <div class="slide-show" key={1}>
+            <img
+              key={1}
+              className=""
+              src="https://www.wallpaperup.com/uploads/wallpapers/2015/05/24/697382/f360e8817121d996697119dfa01bf903.jpg"
+              alt=""
+            />
+          </div>
+          <div class="slide-show" key={2}>
+            <img
+              key={1}
+              className=""
+              src="https://www.wallpaperup.com/uploads/wallpapers/2016/04/19/932803/7d9f929cbad2a73a899a99a5ad92e3f1.jpg"
+              alt=""
+            />
+          </div>
+          <div class="slide-show" key={3}>
+            <img
+              key={1}
+              className=""
+              src="https://i.pinimg.com/originals/1e/6c/12/1e6c120814158783e0607fea91493faf.jpg"
+              alt=""
+            />
+          </div>
+        </Slide>
+      </div>
       <div className="title product-header">
         <h1>HackShoes</h1>
       </div>

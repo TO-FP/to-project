@@ -9,6 +9,8 @@ import {
   Product,
   ProductByUserId,
   MyOrder,
+  MyCart,
+  Payment,
 } from ".";
 import { NavbarAfterLogIn } from "../component";
 
@@ -33,7 +35,8 @@ function MainSection({ login, userLogin }) {
           path="/product/detail/:id"
           component={ProductDetail}
         ></Route>
-        <Route exact path="/myorder" component={MyOrder}></Route>
+        <Route exact path="/myorder" component={MyCart}></Route>
+        <Route exact path="/payment" component={Payment}></Route>
       </Switch>
     </>
   );
