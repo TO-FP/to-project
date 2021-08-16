@@ -8,9 +8,11 @@ const createUsers = () => {
 
   try {
     users.forEach(async (user) => {
-      const { name, email, password, gender, birthdate, avatar, type } = user;
+      const { id, name, email, password, gender, birthdate, avatar, type } =
+        user;
       const salt = bcrypt.genSaltSync(10);
       await User.create({
+        id,
         name,
         email,
         password,

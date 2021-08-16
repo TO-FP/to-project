@@ -162,54 +162,58 @@ class AdminController {
     const files = req.files;
     const body = req.body;
 
-    await Product.update(
-      {
-        name,
-        desc,
-        price,
-        stock,
-        weight,
-        category,
-        brand,
-        condition,
-      },
-      { where: { id } }
-    );
-
-    const productImages = await Products_image.findAll({
-      where: { ProductId: id },
-      order: [["id", "ASC"]],
-    });
-
-    let count = 0;
-
-    const object = [];
-
-    IMAGES.forEach(async (IMAGE, index) => {
-      if (IMAGE) {
-        const fileName = files[count].filename;
-        const productId = productImages[index].id;
-
-        object.push({
-          fileName,
-          productId,
-        });
-        count++;
-      }
-    });
-
-    object.forEach(async (obj) => {
-      await Products_image.update(
-        { fileName: obj.fileName },
-        { where: { id: obj.productId } }
+    try {
+      await Product.update(
+        {
+          name,
+          desc,
+          price,
+          stock,
+          weight,
+          category,
+          brand,
+          condition,
+        },
+        { where: { id } }
       );
-    });
 
-    res.status(200).json({
-      status: 200,
-      object,
-      message: "Product updated successfully!",
-    });
+      const productImages = await Products_image.findAll({
+        where: { ProductId: id },
+        order: [["id", "ASC"]],
+      });
+
+      let count = 0;
+
+      const object = [];
+
+      IMAGES.forEach(async (IMAGE, index) => {
+        if (IMAGE) {
+          const fileName = files[count].filename;
+          const productId = productImages[index].id;
+
+          object.push({
+            fileName,
+            productId,
+          });
+          count++;
+        }
+      });
+
+      object.forEach(async (obj) => {
+        await Products_image.update(
+          { fileName: obj.fileName },
+          { where: { id: obj.productId } }
+        );
+      });
+
+      res.status(200).json({
+        status: 200,
+        object,
+        message: "Product updated successfully!",
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 
   static async deleteProduct(req, res) {

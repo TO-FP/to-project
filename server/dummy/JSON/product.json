@@ -9,6 +9,8 @@
     "category": "Futsal",
     "brand": "Puma",
     "condition": "New",
+    "rating": 5,
+    "views": 132,
     "images": [
       {
         "fileName": "puma-scuderia-ferrari-r-cat-1.jpg",
@@ -46,6 +48,8 @@
     "category": "Boots",
     "brand": "Brodo",
     "condition": "New",
+    "rating": 4,
+    "views": 43,
     "images": [
       {
         "fileName": "alpha-dark-choco-black-sole-1.jpg",
@@ -77,6 +81,8 @@
     "category": "Sneakers",
     "brand": "Converse",
     "condition": "New",
+    "rating": 5,
+    "views": 53,
     "images": [
       {
         "fileName": "converse-run-star-1.jpg",
@@ -108,6 +114,8 @@
     "category": "Sneakers",
     "brand": "New Balance",
     "condition": "New",
+    "rating": 5,
+    "views": 23,
     "images": [
       {
         "fileName": "new-balance-574-1.jpg",
@@ -139,6 +147,8 @@
     "category": "Futsal",
     "brand": "Nike",
     "condition": "New",
+    "rating": 5,
+    "views": 51,
     "images": [
       {
         "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-1.jpg",
@@ -176,6 +186,8 @@
     "category": "Boots",
     "brand": "Brodo",
     "condition": "New",
+    "rating": 5,
+    "views": 130,
     "images": [
       {
         "fileName": "alpha-dark-choco-black-sole-1.jpg",
@@ -207,6 +219,8 @@
     "category": "Sneakers",
     "brand": "Brodo",
     "condition": "New",
+    "rating": 5,
+    "views": 213,
     "images": [
       {
         "fileName": "trainer-navy-os-1.jpg",
@@ -238,6 +252,8 @@
     "category": "Basket",
     "brand": "Nike",
     "condition": "New",
+    "rating": 4,
+    "views": 220,
     "images": [
       {
         "fileName": "nike-kd-14-ep-1.jpg",
@@ -275,6 +291,8 @@
     "category": "Futsal",
     "brand": "Nike",
     "condition": "New",
+    "rating": 3,
+    "views": 105,
     "images": [
       {
         "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-1.jpg",
@@ -312,6 +330,8 @@
     "category": "Slip-on",
     "brand": "Skechers",
     "condition": "Second",
+    "rating": 5,
+    "views": 150,
     "images": [
       {
         "fileName": "skechers-go-walk-slip-on-1.jpg",
@@ -349,6 +369,8 @@
     "category": "Sneakers",
     "brand": "Brodo",
     "condition": "New",
+    "rating": 3,
+    "views": 27,
     "images": [
       {
         "fileName": "trainer-navy-os-1.jpg",
@@ -380,6 +402,8 @@
     "category": "Basket",
     "brand": "Nike",
     "condition": "New",
+    "rating": 5,
+    "views": 35,
     "images": [
       {
         "fileName": "nike-kd-14-ep-1.jpg",
@@ -417,6 +441,8 @@
     "category": "Casual",
     "brand": "Skechers",
     "condition": "Refurbish",
+    "rating": 5,
+    "views": 83,
     "images": [
       {
         "fileName": "skechers-casual-1.jpg",
@@ -454,6 +480,8 @@
     "category": "Sneakers",
     "brand": "Converse",
     "condition": "New",
+    "rating": 3,
+    "views": 33,
     "images": [
       {
         "fileName": "converse-run-star-1.jpg",
@@ -485,6 +513,8 @@
     "category": "Boots",
     "brand": "Brodo",
     "condition": "New",
+    "rating": 5,
+    "views": 10,
     "images": [
       {
         "fileName": "alpha-dark-choco-black-sole-1.jpg",
@@ -516,6 +546,8 @@
     "category": "Casual",
     "brand": "Skechers",
     "condition": "Refurbish",
+    "rating": 3,
+    "views": 4,
     "images": [
       {
         "fileName": "skechers-casual-1.jpg",
@@ -553,6 +585,8 @@
     "category": "Sneakers",
     "brand": "New Balance",
     "condition": "New",
+    "rating": 3,
+    "views": 52,
     "images": [
       {
         "fileName": "new-balance-574-1.jpg",
@@ -584,6 +618,8 @@
     "category": "Futsal",
     "brand": "Puma",
     "condition": "New",
+    "rating": 5,
+    "views": 15,
     "images": [
       {
         "fileName": "puma-scuderia-ferrari-r-cat-1.jpg",
@@ -621,6 +657,8 @@
     "category": "Boots",
     "brand": "Brodo",
     "condition": "New",
+    "rating": 3,
+    "views": 43,
     "images": [
       {
         "fileName": "alpha-dark-choco-black-sole-1.jpg",

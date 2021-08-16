@@ -388,7 +388,7 @@ class ApiController {
         include: [
           {
             model: Line_item,
-            // where: { status: "cart" },
+            where: { status: "cart" },
             include: [
               {
                 model: Product,
@@ -521,6 +521,67 @@ class ApiController {
     }
   }
 
+  // static async orderSummary(req, res) {
+  //   const userId = req.userData.id;
+  //   const userName = req.userData.name;
+
+  //   const shoppingCarts = await Shopping_cart.findAll({
+  //     where: { UserId: userId, status: "open" },
+  //     attributes: ["id"],
+  //     include: [
+  //       {
+  //         model: Line_item,
+  //         where: { status: "cart" },
+  //         attributes: ["id", "ShoppingCartId", "ProductId", "qty"],
+  //         include: [
+  //           {
+  //             model: Product,
+  //             attributes: ["id", "name", "price", "category", "brand"],
+  //           },
+  //         ],
+  //         order: [["id", "ASC"]],
+  //       },
+  //     ],
+  //     order: [["id", "ASC"]],
+  //   });
+
+  //   let qty = 0;
+  //   let subTotal = 0;
+  //   let totalDue = 0;
+
+  //   shoppingCarts.forEach(async (shoppingCart) => {
+  //     let tempSubTotal = 0;
+
+  //     shoppingCart.Line_items.forEach((line_item) => {
+  //       const total = line_item.qty * line_item.Product.price;
+  //       tempSubTotal += total;
+  //       qty++;
+  //     });
+
+  //     subTotal += tempSubTotal;
+  //   });
+
+  //   totalDue = subTotal;
+
+  //   let discount = 0;
+  //   if (qty > 2) {
+  //     discount = (5 * totalDue) / 100;
+  //     totalDue -= discount;
+  //   }
+  //   const tax = (10 * totalDue) / 100;
+  //   totalDue += tax;
+
+  //   res.status(200).json({
+  //     status: 200,
+  //     message: "Order summary displayed successfully!",
+  //     shoppingCarts,
+  //     subTotal,
+  //     discount,
+  //     tax,
+  //     totalDue,
+  //   });
+  // }
+
   static async orderSummary(req, res) {
     const userId = req.userData.id;
     const userName = req.userData.name;
@@ -532,11 +593,30 @@ class ApiController {
         {
           model: Line_item,
           where: { status: "cart" },
-          attributes: ["id", "ShoppingCartId", "ProductId", "qty"],
+          attributes: ["id", "ProductId", "qty"],
           include: [
             {
               model: Product,
-              attributes: ["id", "name", "price", "category", "brand"],
+              attributes: [
+                "id",
+                "UserId",
+                "name",
+                "price",
+                "category",
+                "brand",
+              ],
+              include: [
+                {
+                  model: Products_image,
+                  order: [["id", "ASC"]],
+                  // where: { primary: true },
+                  limit: 1,
+                  attributes: ["fileName"],
+                },
+                {
+                  model: User,
+                },
+              ],
             },
           ],
           order: [["id", "ASC"]],
@@ -545,40 +625,64 @@ class ApiController {
       order: [["id", "ASC"]],
     });
 
-    let qty = 0;
-    let subTotal = 0;
-    let totalDue = 0;
+    const orders = [];
+
+    let totalFinal = 0;
+    let totalTax = 0;
+    let totalDiscount = 0;
 
     shoppingCarts.forEach(async (shoppingCart) => {
-      let tempSubTotal = 0;
+      let totalQty = 0;
+      let subTotal = 0;
+      let totalDue = 0;
+
+      const items = [];
+
+      let sellerName = shoppingCart.Line_items[0].Product.User.name;
 
       shoppingCart.Line_items.forEach((line_item) => {
         const total = line_item.qty * line_item.Product.price;
-        tempSubTotal += total;
-        qty++;
+        subTotal += total;
+        totalQty += line_item.qty;
+
+        items.push(line_item);
       });
 
-      subTotal += tempSubTotal;
+      totalDue = subTotal;
+
+      let discount = 0;
+      if (totalQty > 2) {
+        discount = (5 * totalDue) / 100;
+        totalDue -= discount;
+      }
+
+      const tax = (10 * totalDue) / 100;
+      totalDue += tax;
+
+      totalFinal += totalDue;
+      totalTax += tax;
+      totalDiscount += discount;
+
+      orders.push({
+        totalQty,
+        ShoppingCartId: shoppingCart.id,
+        sellerName: sellerName,
+        subTotal: subTotal,
+        discount: discount,
+        tax: tax,
+        totalDue: totalDue,
+        totalQty: totalQty,
+        Line_items: items,
+      });
     });
-
-    totalDue = subTotal;
-
-    let discount = 0;
-    if (qty > 2) {
-      discount = (5 * totalDue) / 100;
-      totalDue -= discount;
-    }
-    const tax = (10 * totalDue) / 100;
-    totalDue += tax;
 
     res.status(200).json({
       status: 200,
       message: "Order summary displayed successfully!",
-      shoppingCarts,
-      subTotal,
-      discount,
-      tax,
-      totalDue,
+      shoppingCarts: orders,
+      totalTax,
+      totalDiscount,
+      totalFinal,
     });
   }
 
@@ -613,23 +717,21 @@ class ApiController {
         order: [["id", "ASC"]],
       });
 
-      const rand = Math.round(Math.random() * 899999 + 100000);
-      const payTrx = randomstring.generate();
-      const OrderName = `HS-INV/${userName
-        .substring(0, 3)
-        .toUpperCase()}${rand}RAND`;
-
-      let qty = 0;
-      let subTotal = 0;
-      let totalDue = 0;
-
       shoppingCarts.forEach(async (shoppingCart) => {
-        let tempSubTotal = 0;
+        const rand = Math.round(Math.random() * 899999 + 100000);
+        const payTrx = randomstring.generate();
+        const OrderName = `HS-INV/${userName
+          .substring(0, 3)
+          .toUpperCase()}${rand}RAND`;
+
+        let totalQty = 0;
+        let subTotal = 0;
+        let totalDue = 0;
 
         shoppingCart.Line_items.forEach(async (line_item) => {
           const total = line_item.qty * line_item.Product.price;
-          tempSubTotal += total;
-          qty++;
+          subTotal += total;
+          totalQty += line_item.qty;
 
           await Line_item.update(
             { status: "checkout", OrderName },
@@ -637,37 +739,34 @@ class ApiController {
           );
         });
 
-        subTotal += tempSubTotal;
-      });
+        totalDue = subTotal;
 
-      totalDue = subTotal;
+        let discount = 0;
+        if (totalQty > 2) {
+          discount = (5 * totalDue) / 100;
+          totalDue -= discount;
+        }
 
-      let discount = 0;
-      if (qty > 2) {
-        discount = (5 * totalDue) / 100;
-        totalDue -= discount;
-      }
+        const tax = (10 * totalDue) / 100;
+        totalDue += tax;
 
-      const tax = (10 * totalDue) / 100;
-      totalDue += tax;
-
-      const order = await Order.create({
-        UserId: userId,
-        name: OrderName,
-        subtotal: subTotal,
-        discount,
-        tax,
-        totalDue,
-        totalQty: qty,
-        payTrx,
-        city,
-        address,
+        await Order.create({
+          UserId: userId,
+          name: OrderName,
+          subtotal: subTotal,
+          discount,
+          tax,
+          totalDue,
+          totalQty,
+          payTrx,
+          city,
+          address,
+        });
       });
 
       res.json({
         status: 200,
         message: "Checkout success!",
-        order,
       });
     } catch (err) {
       res.status(500).json(err);
@@ -695,7 +794,7 @@ class ApiController {
             ],
           },
         ],
-        where: { UserId: 4 },
+        where: { UserId: userId },
       });
 
       res.json({

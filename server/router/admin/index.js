@@ -14,12 +14,25 @@ route.get("/users", AdminController.findAllUser);
 route.get("/products", AdminController.findAllProduct);
 route.get("/products/:id", AdminController.findOneProduct);
 route.post("/products/add", MulterArray(), AdminController.addProduct);
+
+route.get("/products/:id/edit", productAuth, (req, res) => {
+  try {
+    res.json({
+      status: 200,
+      message: "You have permission",
+    });
+  } catch (err) {
+    res.err(err);
+  }
+});
+
 route.put(
   "/products/:id/update",
   productAuth,
   MulterArray(),
   AdminController.updateProduct
 );
+
 route.delete(
   "/products/:id/delete",
   productAuth,

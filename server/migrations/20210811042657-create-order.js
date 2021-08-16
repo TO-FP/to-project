@@ -12,6 +12,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        primaryKey: true,
       },
       subtotal: {
         type: Sequelize.INTEGER,
