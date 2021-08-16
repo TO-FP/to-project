@@ -23,7 +23,7 @@ function TableCart({
   // console.log(item);
   const itemid = id;
   // console.log(itemid);
-  console.log(shopid);
+  // console.log(shopid);
   return (
     <tbody className="body-table">
       <tr>

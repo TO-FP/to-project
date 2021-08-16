@@ -307,13 +307,37 @@ div.summary-order {
 .payment {
   margin-top: 5rem;
   margin-bottom: 5rem;
-
-  border: #282c34 solid 1px;
+  display: flex;
+  align-items: center;
+  height: 500px;
 }
 
-.payment div {
+div.payment-form {
   padding: 6px;
+  border-radius: 20px;
+
+  width: 400px;
+  height: max-content;
+  background-color: #e5e8ee;
 }
+
+.payment-form-2 {
+  padding: 20px;
+}
+
+.payment-form-2 div {
+  padding: 8px;
+}
+
+.payment-form-2 div input {
+  border: #fff;
+}
+
+.payment-form-2 div select {
+  border: #fff;
+  padding: 10px;
+}
+
 .details td {
   padding-top: 0.75rem;
 }
@@ -357,3 +381,29 @@ button.confirm-order {
 /* .footer img {
   width: 80%;
 } */
+
+.product-name-my-order {
+  color: rgba(10, 199, 142, 0.938);
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.th-background {
+  background-color: #303744;
+  color: white;
+}
+.th-background th {
+  padding: 10px;
+  text-align: left;
+}
+
+.order-list-tr-background {
+  background-color: rgba(231, 231, 231, 0.973);
+}
+
+.order-list-tr-background td {
+  background-color: rgba(231, 231, 231, 0.973);
+  padding-left: 1rem;
+}

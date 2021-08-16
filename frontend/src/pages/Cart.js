@@ -77,8 +77,8 @@ function Cart() {
       // console.log(item.data.cart);
     });
   };
-
-  console.log(item);
+  // cartNum(item.length);
+  // console.log(item);
   // route.delete("/carts/:id/remove", userAuth, ApiController.removeCart);
   // const id =
   const deleteHandler = (e, id) => {

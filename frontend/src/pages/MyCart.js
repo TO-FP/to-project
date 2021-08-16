@@ -36,7 +36,7 @@ const MyCart = () => {
             <div className="row per-myorder">
               <div className="col-6">
                 <table className="table" style={{ marginTop: 50 }}>
-                  <tr>
+                  <tr className="th-background">
                     <th>No .</th>
                     <th>product</th>
                     <th style={{ width: 200 }}>name</th>
@@ -47,7 +47,7 @@ const MyCart = () => {
                     console.log(item.Product.Products_images[0].fileName);
                     return (
                       <>
-                        <tr>
+                        <tr className="order-list-tr-background">
                           <td>{i + 1}</td>
                           <td>
                             <div style={{ width: 100, height: 100 }}>
@@ -62,7 +62,9 @@ const MyCart = () => {
                               />
                             </div>
                           </td>
-                          <td>{item.Product.name}</td>
+                          <td className="product-name-my-order">
+                            {item.Product.name}
+                          </td>
                           <td>{item.qty}</td>
                           <td>{item.qty * item.Product.price}</td>
                         </tr>
@@ -78,33 +80,33 @@ const MyCart = () => {
               >
                 <table style={{ marginTop: 30 }}>
                   <tr>
-                    <td>No: {i + 1}</td>
+                    <td className="bold-text"> No: {i + 1}</td>
                     <td style={{ width: 150 }}></td>
                     <td></td>
                   </tr>
                   <hr />
                   <tr>
-                    <td>pay transaction:</td>
+                    <td className="bold-text">pay transaction:</td>
                     <td style={{ width: 150 }}></td>
                     <td>{transaction.payTrx}</td>
                   </tr>
                   <tr>
-                    <td>subtotal</td>
+                    <td className="bold-text">subtotal</td>
                     <td style={{ width: 150 }}></td>
                     <td>Rp {transaction.subtotal}</td>
                   </tr>
                   <tr>
-                    <td>discount</td>
+                    <td className="bold-text">discount</td>
                     <td style={{ width: 150 }}></td>
                     <td>Rp {transaction.discount}</td>
                   </tr>
                   <tr>
-                    <td>tax</td>
+                    <td className="bold-text">tax</td>
                     <td style={{ width: 150 }}></td>
                     <td>Rp {transaction.tax}</td>
                   </tr>
                   <tr>
-                    <td>total due</td>
+                    <td className="bold-text">total due</td>
                     <td style={{ width: 150 }}></td>
                     <td>Rp {transaction.totalDue}</td>
                   </tr>

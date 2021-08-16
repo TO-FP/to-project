@@ -15,6 +15,13 @@ import {
 import { NavbarAfterLogIn } from "../component";
 
 function MainSection({ login, userLogin }) {
+  // let cartNum = (num) => {
+  //   console.log(num);
+  // };
+
+  // let value = cartNum();
+
+  // console.log(value);
   return (
     <>
       <NavbarAfterLogIn login={login} userLogin={userLogin} />
@@ -28,7 +35,9 @@ function MainSection({ login, userLogin }) {
           component={ProductByUserId}
         ></Route>
 
-        <Route exact path="/cart" component={Cart}></Route>
+        <Route exact path="/cart" component={Cart}>
+          {/* <Cart /> */}
+        </Route>
         <Route exact path="/place_order" component={PlaceOrder}></Route>
         <Route
           exact

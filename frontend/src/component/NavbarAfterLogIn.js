@@ -2,9 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 function NavbarAfterLogIn({ login, userLogin }) {
+  // const token = localStorage.getItem("access_token");
+  // const URL = "http://localhost:3000/api";
+  // const [cartNum, setCartNum] = useState([]);
+  // const [carts, setCarts] = useState();
+
   const history = useHistory();
+
   const logoutHandler = (e) => {
     e.preventDefault();
     Swal.fire({
@@ -23,6 +32,41 @@ function NavbarAfterLogIn({ login, userLogin }) {
       }
     });
   };
+  //-------------------------------
+  // const handleSelectAll = (e) => {
+  //   cartNum.forEach((cart) => {
+  //     let target = e.target.id;
+  //     if (cart.id == target) {
+  //       getCheck(target);
+  //     }
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   getCart();
+  // }, []);
+
+  // const getCheck = (id) => {
+  //   axios({
+  //     method: "PUT",
+  //     url: `${URL}/check-carts/${id}`,
+  //     headers: { access_token: token },
+  //   }).then((item) => {
+  //     // setItem(item.data.cart);
+  //     getCart();
+  //   });
+  // };
+
+  // const getCart = async () => {
+  //   await axios({
+  //     method: "GET",
+  //     url: `${URL}/show-cart`,
+  //     headers: { access_token: token },
+  //   }).then((item) => {
+  //     setCartNum(item.data.cart);
+  //   });
+  // };
+  //-----------------------------------------
 
   return (
     <nav class="navbar navbar-dark bg-dark navbar-expand-lg  ">
@@ -71,6 +115,7 @@ function NavbarAfterLogIn({ login, userLogin }) {
           </ul>
           <Link class="btn btn-outline-success" to="/cart">
             Cart
+            <span class=""> </span>
           </Link>
           <button
             class="btn btn-outline-success"
