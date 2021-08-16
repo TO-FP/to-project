@@ -258,6 +258,75 @@ class AdminController {
       res.status(500).json(err);
     }
   }
+
+  static async findOneOrder(req, res) {
+    const userId = req.userData.id;
+    const name = `HS-INV/${req.params.name}`;
+
+    try {
+      const order = await Order.findAll({
+        include: [
+          {
+            model: Line_item,
+            include: [
+              {
+                model: Product,
+                where: { UserId: userId },
+                include: [
+                  {
+                    model: Products_image,
+                  },
+                ],
+              },
+            ],
+          },
+          { model: User },
+        ],
+        where: { name },
+      });
+
+      res.json({
+        status: 200,
+        message: " Order details has been displayed successfully!",
+        order,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async changeStatusOrder(req, res) {
+    const name = req.params.name;
+    const status = req.params.status;
+
+    await Order.update(
+      {
+        status,
+      },
+      {
+        where: { name: `HS-INV/${name}` },
+      }
+    );
+
+    Line_item.update(
+      {
+        status:
+          status === "paid"
+            ? "ordered"
+            : status === "cancelled"
+            ? status
+            : status === "closed" && status,
+      },
+      {
+        where: { OrderName: `HS-INV/${name}` },
+      }
+    );
+
+    res.json({
+      status: 200,
+      message: "Transaction confirmation success!",
+    });
+  }
 }
 
 module.exports = AdminController;

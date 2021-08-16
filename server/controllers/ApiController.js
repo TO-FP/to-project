@@ -308,7 +308,10 @@ class ApiController {
             }
 
             // update keranjang apabila ada produk yg sama
-            if (line_item.ProductId === productId) {
+            if (
+              line_item.ProductId === productId &&
+              line_item.status === "cart"
+            ) {
               productFound = true;
               await Line_item.update(
                 { qty: line_item.qty + qty },
@@ -385,7 +388,7 @@ class ApiController {
         include: [
           {
             model: Line_item,
-            where: { status: "cart" },
+            // where: { status: "cart" },
             include: [
               {
                 model: Product,
@@ -663,38 +666,41 @@ class ApiController {
 
       res.json({
         status: 200,
-        data: {
-          userId,
-          userName,
-          city,
-          address,
-          qty,
-          // shoppingCarts,
-          payTrx,
-          OrderName,
-          totalDue,
-          subTotal,
-        },
-      });
-
-      res.json({
-        status: 200,
-        data: {
-          userId,
-          userName,
-          city,
-          address,
-          // shoppingCarts,
-          payTrx,
-          orderName,
-          totalDue,
-          subTotal,
-        },
-      });
-
-      res.json({
-        status: 200,
         message: "Checkout success!",
+        order,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async getOrder(req, res) {
+    const userId = req.userData.id;
+    const userName = req.userData.name;
+
+    try {
+      const order = await Order.findAll({
+        include: [
+          {
+            model: Line_item,
+            include: [
+              {
+                model: Product,
+                include: [
+                  {
+                    model: Products_image,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        where: { UserId: 4 },
+      });
+
+      res.json({
+        status: 200,
+        message: " Data orders has been displayed successfully!",
         order,
       });
     } catch (err) {

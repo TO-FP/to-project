@@ -1,5 +1,73 @@
 [
   {
+    "UserId": 2,
+    "name": "Puma Scuderia Ferrari R Cat",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 1891000,
+    "stock": 4,
+    "weight": 500,
+    "category": "Futsal",
+    "brand": "Puma",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 3,
+    "name": "Alpha Dark Choco Black Sole",
+    "desc": "Brodo Alpha adalah design boots pertama kami Boots ini menggunakan design boots toe cap basic sengaja dibuat untuk para gentlemen yang mencari sepatu tangguh untuk berpetualang.",
+    "price": 799000,
+    "stock": 8,
+    "weight": 500,
+    "category": "Boots",
+    "brand": "Brodo",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "alpha-dark-choco-black-sole-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "alpha-dark-choco-black-sole-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "alpha-dark-choco-black-sole-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
     "UserId": 1,
     "name": "Converse RUN STAR HIKE Unisex Sneakers Shoes",
     "desc": "SEGALANYA. Chuck Taylor All Star yang ikonik mendapatkan penyegaran ringan di Run Star Hike.",
@@ -62,6 +130,43 @@
     ]
   },
   {
+    "UserId": 4,
+    "name": "Nike Mercurial Superfly 7 Academy Mds Ic 1",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 2386000,
+    "stock": 7,
+    "weight": 500,
+    "category": "Futsal",
+    "brand": "Nike",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
     "UserId": 2,
     "name": "Alpha Dark Choco Black Sole",
     "desc": "Brodo Alpha adalah design boots pertama kami Boots ini menggunakan design boots toe cap basic sengaja dibuat untuk para gentlemen yang mencari sepatu tangguh untuk berpetualang.",
@@ -117,6 +222,420 @@
       },
       {
         "fileName": "trainer-navy-os-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 2,
+    "name": "Nike Kd 14 Ep",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 1566000,
+    "stock": 4,
+    "weight": 500,
+    "category": "Basket",
+    "brand": "Nike",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "nike-kd-14-ep-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "nike-kd-14-ep-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-kd-14-ep-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-kd-14-ep-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 2,
+    "name": "Nike Mercurial Superfly 7 Academy Mds Ic 1",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 2386000,
+    "stock": 7,
+    "weight": 500,
+    "category": "Futsal",
+    "brand": "Nike",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-mercurial-superfly-7-academy-mds-Ic-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 4,
+    "name": "Skechers Go Walk",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 486000,
+    "stock": 2,
+    "weight": 500,
+    "category": "Slip-on",
+    "brand": "Skechers",
+    "condition": "Second",
+    "images": [
+      {
+        "fileName": "skechers-go-walk-slip-on-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "skechers-go-walk-slip-on-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "skechers-go-walk-slip-on-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "skechers-go-walk-slip-on-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 3,
+    "name": "Trainer Navy OS",
+    "desc": "Brodo Trainers terinsipasi dari sepatu cupsole classic untuk olahraga training seperti adi samba & margiela yang kita beri sentuhan fashion.",
+    "price": 265000,
+    "stock": 10,
+    "weight": 500,
+    "category": "Sneakers",
+    "brand": "Brodo",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "trainer-navy-os-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "trainer-navy-os-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "trainer-navy-os-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 1,
+    "name": "Nike Kd 14 Ep",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 1566000,
+    "stock": 4,
+    "weight": 500,
+    "category": "Basket",
+    "brand": "Nike",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "nike-kd-14-ep-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "nike-kd-14-ep-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-kd-14-ep-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "nike-kd-14-ep-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 2,
+    "name": "Skechers Casual",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 688000,
+    "stock": 1,
+    "weight": 500,
+    "category": "Casual",
+    "brand": "Skechers",
+    "condition": "Refurbish",
+    "images": [
+      {
+        "fileName": "skechers-casual-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "skechers-casual-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "skechers-casual-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "skechers-casual-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 1,
+    "name": "Converse RUN STAR HIKE Unisex Sneakers Shoes",
+    "desc": "SEGALANYA. Chuck Taylor All Star yang ikonik mendapatkan penyegaran ringan di Run Star Hike.",
+    "price": 1099000,
+    "stock": 6,
+    "weight": 500,
+    "category": "Sneakers",
+    "brand": "Converse",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "converse-run-star-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "converse-run-star-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "converse-run-star-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 3,
+    "name": "Alpha Dark Choco Black Sole",
+    "desc": "Brodo Alpha adalah design boots pertama kami Boots ini menggunakan design boots toe cap basic sengaja dibuat untuk para gentlemen yang mencari sepatu tangguh untuk berpetualang.",
+    "price": 799000,
+    "stock": 8,
+    "weight": 500,
+    "category": "Boots",
+    "brand": "Brodo",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "alpha-dark-choco-black-sole-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "alpha-dark-choco-black-sole-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "alpha-dark-choco-black-sole-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 1,
+    "name": "Skechers Casual",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 688000,
+    "stock": 1,
+    "weight": 500,
+    "category": "Casual",
+    "brand": "Skechers",
+    "condition": "Refurbish",
+    "images": [
+      {
+        "fileName": "skechers-casual-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "skechers-casual-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "skechers-casual-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "skechers-casual-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 2,
+    "name": "New Balance 574 LS Men's Sneaker Shoes - Grey",
+    "desc": "Sneaker 574 pria adalah ikon koleksi. Dengan garis-garis yang bersih, warna-warna yang terinspirasi oleh universitas, dan profil klasik.",
+    "price": 1599000,
+    "stock": 12,
+    "weight": 500,
+    "category": "Sneakers",
+    "brand": "New Balance",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "new-balance-574-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "new-balance-574-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "new-balance-574-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 3,
+    "name": "Puma Scuderia Ferrari R Cat",
+    "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "price": 1891000,
+    "stock": 4,
+    "weight": 500,
+    "category": "Futsal",
+    "brand": "Puma",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-3.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "puma-scuderia-ferrari-r-cat-4.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      }
+    ]
+  },
+  {
+    "UserId": 4,
+    "name": "Alpha Dark Choco Black Sole",
+    "desc": "Brodo Alpha adalah design boots pertama kami Boots ini menggunakan design boots toe cap basic sengaja dibuat untuk para gentlemen yang mencari sepatu tangguh untuk berpetualang.",
+    "price": 799000,
+    "stock": 8,
+    "weight": 500,
+    "category": "Boots",
+    "brand": "Brodo",
+    "condition": "New",
+    "images": [
+      {
+        "fileName": "alpha-dark-choco-black-sole-1.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": true
+      },
+      {
+        "fileName": "alpha-dark-choco-black-sole-2.jpg",
+        "fileSize": "150kb",
+        "fileType": "jpg",
+        "primary": false
+      },
+      {
+        "fileName": "alpha-dark-choco-black-sole-3.jpg",
         "fileSize": "150kb",
         "fileType": "jpg",
         "primary": false

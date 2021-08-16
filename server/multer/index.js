@@ -49,7 +49,7 @@ const MulterArray = () => {
 
       const mimetype = file.mimetype.split("/");
 
-      cb(null, file.originalname);
+      cb(null, Date.now() + "-" + file.originalname);
       // cb(null, name[0].toLowerCase() + "-" + Date.now() + "." + mimetype[1]);
     },
   });

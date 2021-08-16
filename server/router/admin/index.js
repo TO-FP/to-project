@@ -27,6 +27,11 @@ route.delete(
 );
 
 route.get("/orders", AdminController.findAllOrder);
+route.get("/order-details/:name", AdminController.findOneOrder);
+route.put(
+  "/change-status-order/:name/:status",
+  AdminController.changeStatusOrder
+);
 
 // Orders
 

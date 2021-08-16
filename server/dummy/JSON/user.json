@@ -1,29 +1,56 @@
 [
   {
-    "name": "admin1",
-    "email": "admin1@gmail.com",
+    "name": "TokoSepatuMurmer",
+    "email": "tokosepatumurmer@gmail.com",
     "password": "admin",
     "gender": "male",
     "birthdate": "2021-08-12",
-    "avatar": "via.placeholder.com/350",
+    "avatar": "blank.png",
     "type": "admin"
   },
   {
-    "name": "admin2",
-    "email": "admin2@gmail.com",
+    "name": "rajasepatu100",
+    "email": "rajasepatu100@gmail.com",
     "password": "admin",
     "gender": "male",
     "birthdate": "2021-08-12",
-    "avatar": "via.placeholder.com/350",
+    "avatar": "blank.png",
     "type": "admin"
   },
   {
-    "name": "user",
-    "email": "user@gmail.com",
-    "password": "user",
+    "name": "dewaSEPATU666",
+    "email": "dewasepatu666@gmail.com",
+    "password": "admin",
     "gender": "male",
     "birthdate": "2021-08-12",
-    "avatar": "via.placeholder.com/350",
+    "avatar": "blank.png",
+    "type": "admin"
+  },
+  {
+    "name": "sepatusecond_ku",
+    "email": "sepatusecond_ku@gmail.com",
+    "password": "admin",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "admin"
+  },
+  {
+    "name": "dimas",
+    "email": "dimas@gmail.com",
+    "password": "dimas",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "user"
+  },
+  {
+    "name": "fadel",
+    "email": "fadel@gmail.com",
+    "password": "fadel",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
     "type": "user"
   }
 ]
