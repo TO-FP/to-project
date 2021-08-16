@@ -33,122 +33,92 @@ function OrderSummary() {
   return (
     <div className="col-sm-4 summary-order">
       <div className="container">
-        <h1>Order Summary:</h1>
+        <h3>Order Summary:</h3>
+        <hr />
         {item.map((cart) => {
           // let [...item] = cart.Line_items;
+
           return (
             <>
-              {cart.Line_items.map((item) => {
-                // console.log(item);
-                return (
-                  <>
-                    <h5>Item :</h5>
-                    <div class="container">
-                      <div class="row row-cols-4">
-                        <div class="col">
-                          <p>{item.Product.name}</p>
-                        </div>
-                        <div class="col">
-                          <p>{item.qty}</p>
-                        </div>
-                        <div class="col">
-                          <p>{item.Product.price}</p>
-                        </div>
-                        <div class="col">
-                          <p>{item.qty * item.Product.price}</p>
-                        </div>
+              <div style={{ textAlign: "left", marginTop: 10, padding: 0 }}>
+                <span>{cart.sellerName}</span>
+              </div>
+              <div class="container" style={{ fontSize: 10 }}>
+                {cart.Line_items.map((item) => {
+                  // console.log(item);
+                  return (
+                    <div class="row p-0">
+                      <div class="col-4 p-0" style={{ textAlign: "left" }}>
+                        <p>{item.Product.name}</p>
+                      </div>
+                      <div class="col-4 p-0">
+                        <p>x{item.qty}</p>
+                      </div>
+                      <div class="col-4 p-0">
+                        <p>IDR {item.qty * item.Product.price}</p>
                       </div>
                     </div>
-                  </>
-                );
-              })}
+                  );
+                })}
+                <div className="row p-0">
+                  <div className="col-4 p-0" style={{ textAlign: "left" }}>
+                    Discount
+                  </div>
+                  <div className="col-4 p-0"></div>
+                  <div className="col-4 p-0">
+                    {cart.discount ? `- IDR ${cart.discount}` : "-"}
+                  </div>
+                </div>
+
+                <div className="row p-0 ">
+                  <div className="col-4 p-0" style={{ textAlign: "left" }}>
+                    Tax
+                  </div>
+                  <div className="col-4 p-0"></div>
+                  <div className="col-4 p-0">+ IDR {cart.tax}</div>
+                </div>
+
+                <div className="row p-0" style={{ fontWeight: "bold" }}>
+                  <div className="col-4 p-0" style={{ textAlign: "left" }}>
+                    Total
+                  </div>
+                  <div className="col-4 p-0"></div>
+                  <div className="col-4 p-0">IDR {cart.totalDue}</div>
+                </div>
+              </div>
             </>
           );
         })}
-
-        <div class="container">
-          <div class="row row-cols-4">
-            <div class="col">
-              <p>
-                {" "}
-                <h5>Subtotal: </h5>
-              </p>
+        <hr />
+        <div class="container" style={{ fontSize: 12 }}>
+          <div className="row p-0 mt-3" style={{ fontWeight: "bold" }}>
+            <div className="col-4 p-0" style={{ textAlign: "left" }}>
+              Sub Total Discount
             </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              {" "}
-              <p>{order.subTotal}</p>
+            <div className="col-4 p-0"></div>
+            <div className="col-4 p-0">
+              {order.totalDiscount > 0 ? `IDR ${order.totalDiscount}` : "-"}
             </div>
           </div>
-        </div>
 
-        <div class="container">
-          <div class="row row-cols-4">
-            <div class="col">
-              <p>
-                {" "}
-                <h5>Discount: </h5>
-              </p>
+          <div className="row p-0 mt-3" style={{ fontWeight: "bold" }}>
+            <div className="col-4 p-0" style={{ textAlign: "left" }}>
+              Sub Total Tax
             </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              {" "}
-              <p>{order.discount}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="container">
-          <div class="row row-cols-4">
-            <div class="col">
-              <p>
-                {" "}
-                <h5>Tax: </h5>
-              </p>
-            </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              {" "}
-              <p>10%</p>
-            </div>
+            <div className="col-4 p-0"></div>
+            <div className="col-4 p-0">IDR {order.totalTax}</div>
           </div>
         </div>
 
         <hr />
 
-        <div class="container">
-          <div class="row row-cols-4">
-            <div class="col">
-              <p>
-                {" "}
-                <h5>Total Due : </h5>
-              </p>
+        <div class="container" style={{ fontSize: 18 }}>
+          <div className="row p-0" style={{ fontWeight: "bold" }}>
+            <div className="col-4 p-0" style={{ textAlign: "left" }}>
+              Total Due
             </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              <p></p>
-            </div>
-            <div class="col">
-              {" "}
-              <p>IDR {order.totalDue} </p>
-            </div>
+            <div className="col-4 p-0"></div>
+            <div className="col-4 p-0">IDR {order.totalFinal}</div>
           </div>
         </div>
       </div>
