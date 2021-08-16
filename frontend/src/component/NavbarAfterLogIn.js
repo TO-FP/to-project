@@ -58,6 +58,11 @@ function NavbarAfterLogIn({ login, userLogin }) {
                 Products
               </Link>
             </li>
+            <li class="nav-item">
+              <Link class="nav-link" to="/myorder">
+                My Order
+              </Link>
+            </li>
           </ul>
           <Link class="btn btn-outline-success" to="/cart">
             Cart

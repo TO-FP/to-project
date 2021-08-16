@@ -19,6 +19,7 @@ function RegisterForm() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log("click");
 
     if (
       name === "" ||
@@ -39,30 +40,27 @@ function RegisterForm() {
       };
       const data = new FormData();
       data.append("file", avatar);
+      data.append("name", name);
+      data.append("email", email);
+      data.append("password", password);
+      data.append("birthdate", birthdate);
+      data.append("type", type);
 
-      postRegister(registerValue, data, e);
+      postRegister(data, e);
       console.log("click");
     }
   };
 
   // console.log(avatar);
 
-  const postRegister = async (item, data, e) => {
+  const postRegister = async (data, e) => {
     try {
-      const { name, email, password, gender, birthdate, type } = item;
+      // const { name, email, password, gender, birthdate, type } = item;
 
       await axios({
         method: "POST",
         url: `${URL}/register`,
-        data: {
-          name,
-          email,
-          password,
-          gender,
-          birthdate,
-          data,
-          type,
-        },
+        data,
       });
       Swal.fire("Register Success");
       history.push("/login");
@@ -72,7 +70,7 @@ function RegisterForm() {
   };
   return (
     <>
-      <form action="">
+      <form action="" className="label-text">
         <div class="mb-3">
           <label for="exampleFormControlInput1" class="form-label">
             Full Name

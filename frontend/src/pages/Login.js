@@ -44,7 +44,7 @@ function Login({ login, userLogin, getToken, getUser }) {
   return (
     <>
       <NavBar />
-      <div className="login-register">
+      <div className="login-register background-log-reg">
         <div class="form">
           <form>
             <div class="container">

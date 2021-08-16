@@ -7,6 +7,8 @@ import Profile from "./Profile";
 import PlaceOrder from "./PlaceOrder";
 import Product from "./Product";
 import MainSection from "./MainSection";
+import ProductByUserId from "./ProductByUserId";
+import MyOrder from "./MyOrder";
 export {
   Home,
   Login,
@@ -17,4 +19,6 @@ export {
   PlaceOrder,
   Product,
   MainSection,
+  ProductByUserId,
+  MyOrder,
 };

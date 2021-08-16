@@ -5,8 +5,8 @@ function HotItem({ item, price, brand, img }) {
   return (
     <div className="card card-size">
       {/* // image */}
-      <img src={`${img}`} alt="..." />
-      <p>{img}</p>
+      <img src={`http://localhost:3000/images/products/${img}`} alt="..." />
+      <p>{"NEW ITEMS"}</p>
       {/* ... */}
 
       <div className="card-body">

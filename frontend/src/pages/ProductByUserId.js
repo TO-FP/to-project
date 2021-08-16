@@ -1,5 +1,5 @@
-import axios from "axios";
 import React from "react";
+import axios from "axios";
 import { useEffect } from "react";
 import { Blocking, NavbarAfterLogIn, ProductCard } from "../component";
 import { useState } from "react";
@@ -8,18 +8,25 @@ import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+// import { useParams } from "react-router-dom";
 import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-function Product() {
+function ProductByUserId() {
   const URL = "http://localhost:3000/api";
   const [item, setItem] = useState([]);
   const [dropdownOpen, setOpen] = useState(false);
-
   const toggle = () => setOpen(!dropdownOpen);
+  const params = useParams();
+  const UserId = +params.UserId;
+  const page = +params.page;
+  //   console.log(page);
+
+  //   console.log(UserId);
+
   // useEffect(() => {
   //   getItem();
   // }, []);
@@ -32,24 +39,24 @@ function Product() {
   //     // console.log(item.data.products);
   //   });
   // };
-  const params = useParams();
-  const pageid = +params.page;
+  //   const params = useParams();
 
   const [productPage, setProductPage] = useState(0);
 
   const handlePageClick = async (event) => {
     let page = event.selected;
-    console.log("click");
+    // console.log(page);
     // console.log(page + 1);
     await axios({
       method: "POST",
-      url: `${URL}/products/${page + 1}`,
+      url: `${URL}/products-by/${UserId}/${page + 1}`,
+      data: { limit: 1 },
     }).then((item) => {
       setItem(item.data.products);
       setProductPage(item.data.totalPage);
     });
   };
-
+  console.log(item);
   useEffect(() => {
     getPage();
   }, []);
@@ -57,8 +64,8 @@ function Product() {
   const getPage = async (sort) => {
     await axios({
       method: "POST",
-      url: `${URL}/products`,
-      data: { sort: sort },
+      url: `${URL}/products-by/${UserId}`,
+      data: { limit: 1, sort: sort },
     }).then((item) => {
       setItem(item.data.products);
       setProductPage(item.data.totalPage);
@@ -70,8 +77,8 @@ function Product() {
     // console.log(sort);
     getPage(sort);
   };
-
   console.log(productPage);
+  // console.log(productPage);
 
   // console.log(item);
   // let pageCount = Math.ceil(item.length / 10);
@@ -93,26 +100,7 @@ function Product() {
       <Blocking />
       <div class="container-lg product-show">
         <div class="row">
-          <div class="col-sm-4 product-navigate">
-            <div class="container-md side-image">
-              <img
-                src="https://i.pinimg.com/originals/94/79/06/947906a9f271248ae8496194528d105e.png"
-                alt=""
-              />
-            </div>
-            <div class="container-md side-image">
-              <img
-                src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/8ce9c392509187.5e4d193c2c5cf.png"
-                alt=""
-              />
-            </div>
-            <div class="container-md side-image">
-              <img
-                src="https://ae01.alicdn.com/kf/HTB1AkMtaeH2gK0jSZJnq6yT1FXab/Michael-Jordan-Shoes-Poster-Air-Max-Shoes-Sneaker-Posters-White-Paper-Posters-Wall-Art-Picture-for.jpg"
-                alt=""
-              />
-            </div>
-          </div>
+          <div class="col-sm-4 product-navigate">col-sm-4</div>
           <div class="col-sm-8">
             <div class="container sorting">
               <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
@@ -152,7 +140,6 @@ function Product() {
                 });
                 let [{ fileName }] = img_file;
                 // console.log(img_file);
-                // console.log(item.UserId);
                 return (
                   <ProductCard
                     item={item.name}
@@ -195,4 +182,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default ProductByUserId;

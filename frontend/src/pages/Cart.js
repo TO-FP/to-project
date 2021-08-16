@@ -77,6 +77,8 @@ function Cart() {
       // console.log(item.data.cart);
     });
   };
+
+  console.log(item);
   // route.delete("/carts/:id/remove", userAuth, ApiController.removeCart);
   // const id =
   const deleteHandler = (e, id) => {
@@ -190,7 +192,7 @@ function Cart() {
                 </label> */}
                 <Checkbox
                   id={item.id}
-                  name={"Select All"}
+                  name={"Select"}
                   type={"checkbox"}
                   handleClick={(e) => handleSelectAll(e)}
                   isChecked={item.status}
