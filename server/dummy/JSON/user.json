@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "cari sepatu",
+    "email": "carisepatu@gmail.com",
+    "password": "admin",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "admin"
+  },
+  {
+    "id": 2,
+    "name": "rajasepatu",
+    "email": "rajasepatu@gmail.com",
+    "password": "admin",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "admin"
+  },
+  {
+    "id": 3,
+    "name": "SHOES HUNTER",
+    "email": "shoeshunter@gmail.com",
+    "password": "admin",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "admin"
+  },
+  {
+    "id": 4,
+    "name": "sepatusecond_ku",
+    "email": "sepatusecond_ku@gmail.com",
+    "password": "admin",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "admin"
+  },
+  {
+    "id": 5,
+    "name": "dimas",
+    "email": "dimas@gmail.com",
+    "password": "dimas",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "user"
+  },
+  {
+    "id": 6,
+    "name": "fadel",
+    "email": "fadel@gmail.com",
+    "password": "fadel",
+    "gender": "male",
+    "birthdate": "2021-08-12",
+    "avatar": "blank.png",
+    "type": "user"
+  }
+]
