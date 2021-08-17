@@ -1,4 +1,4 @@
-const { User, Product, Products_image } = require("../models");
+const { User, Product, Products_image, Shopping_cart } = require("../models");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
 
@@ -36,18 +36,13 @@ const createProducts = () => {
   let status = true;
 
   products.forEach(async (product) => {
-    const {
-      UserId,
-      name,
-      desc,
-      price,
-      stock,
-      weight,
-      category,
-      brand,
-      condition,
-      images,
-    } = product;
+    const { UserId, name, desc, weight, category, brand, condition, images } =
+      product;
+
+    const stock = Math.floor(Math.random() * 56) + 1;
+    const price = Math.floor(Math.random() * 4999999) + 500000;
+    const rating = Math.floor(Math.random() * 5) + 1;
+    const views = Math.floor(Math.random() * 300) + 1;
 
     try {
       const productAdded = await Product.create({
@@ -60,6 +55,8 @@ const createProducts = () => {
         category,
         brand,
         condition,
+        rating,
+        views,
       });
 
       images.forEach(async (img) => {

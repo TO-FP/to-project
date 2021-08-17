@@ -11,18 +11,19 @@ route.get("/", AdminController.dashboard);
 route.get("/users", AdminController.findAllUser);
 
 // Products
-route.get("/products", AdminController.findAllProduct);
-route.get("/products/:id", AdminController.findOneProduct);
-route.post("/products/add", MulterArray(), AdminController.addProduct);
+route.get("/products/:name?/:sort?/:page?", AdminController.findAllProduct);
+route.get("/my-products/:name?/:sort?/:page?", AdminController.findMyProduct);
+route.get("/products-details/:id", AdminController.findOneProduct);
+route.post("/products-add", MulterArray(), AdminController.addProduct);
 
-route.get("/products/:id/edit", productAuth, (req, res) => {
+route.get("/products-auth/:id", productAuth, (req, res) => {
   try {
     res.json({
       status: 200,
       message: "You have permission",
     });
   } catch (err) {
-    res.err(err);
+    res.json(err);
   }
 });
 
@@ -39,13 +40,13 @@ route.delete(
   AdminController.deleteProduct
 );
 
-route.get("/orders", AdminController.findAllOrder);
+// Orders
+
+route.get("/orders/:status?", AdminController.findAllOrder);
 route.get("/order-details/:name", AdminController.findOneOrder);
 route.put(
   "/change-status-order/:name/:status",
   AdminController.changeStatusOrder
 );
-
-// Orders
 
 module.exports = route;

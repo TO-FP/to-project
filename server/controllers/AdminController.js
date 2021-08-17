@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const {
   User,
   Product,
@@ -30,27 +32,149 @@ class AdminController {
       });
   }
 
-  static findAllProduct(req, res) {
-    Product.findAll({
-      include: [
-        { model: User, attributes: ["email"] },
-        { model: Products_image },
-      ],
-      order: [
-        ["id", "ASC"],
-        [Products_image, "id", "ASC"],
-      ],
-    })
-      .then((products) => {
-        res.status(200).json({
-          status: 200,
-          message: "Products displayed successfully!",
-          products,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json(err);
+  static async findAllProduct(req, res) {
+    let { name, sort, page } = req.params;
+
+    if (!name) name = " ";
+    if (!page) page = 1;
+
+    const limit = 5;
+
+    let order = [];
+
+    if (sort === "newest") {
+      order = ["createdAt", "ASC"];
+    } else if (sort === "oldest") {
+      order = ["createdAt", "DESC"];
+    } else if (sort === "low-price") {
+      order = ["price", "ASC"];
+    } else if (sort === "high-price") {
+      order = ["price", "DESC"];
+    } else if (sort === "total-sold") {
+      order = ["totalSold", "ASC"];
+    } else if (sort === "rating") {
+      order = ["rating", "ASC"];
+    } else {
+      order = ["id", "ASC"];
+    }
+
+    const totalProduct = await Product.findAll({
+      where: {
+        name: {
+          [Op.iLike]: "%" + name + "%",
+        },
+      },
+    });
+    const totalPage = Math.ceil(totalProduct.length / limit);
+    const offset = (page - 1) * limit;
+
+    try {
+      const products = await Product.findAll({
+        offset,
+        limit,
+        include: [
+          { model: User, attributes: ["name", "email"] },
+          {
+            model: Products_image,
+            attributes: ["fileName", "primary"],
+          },
+        ],
+        where: {
+          name: {
+            [Op.iLike]: "%" + name + "%",
+          },
+        },
+        order: [order],
       });
+      res.status(200).json({
+        status: 200,
+        totalProduct: totalProduct.length,
+        totalPage,
+        products,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  static async findMyProduct(req, res) {
+    const UserId = req.userData.id;
+    let { name, sort, page } = req.params;
+
+    // if (!name) name = " ";
+    if (!page) page = 1;
+
+    const limit = 5;
+
+    let order = [];
+
+    if (sort === "newest") {
+      order = ["createdAt", "ASC"];
+    } else if (sort === "oldest") {
+      order = ["createdAt", "DESC"];
+    } else if (sort === "low-price") {
+      order = ["price", "ASC"];
+    } else if (sort === "high-price") {
+      order = ["price", "DESC"];
+    } else if (sort === "total-sold") {
+      order = ["totalSold", "ASC"];
+    } else if (sort === "rating") {
+      order = ["rating", "ASC"];
+    } else {
+      order = ["id", "ASC"];
+    }
+
+    try {
+      const totalProduct = await Product.findAll({
+        where: {
+          UserId,
+          name: {
+            [Op.iLike]: "%" + name + "%",
+          },
+        },
+      });
+      const totalPage = Math.ceil(totalProduct.length / limit);
+      const offset = (page - 1) * limit;
+
+      const products = await Product.findAll({
+        offset,
+        limit,
+        include: [
+          { model: User, attributes: ["name", "email"] },
+          {
+            model: Products_image,
+            attributes: ["fileName", "primary"],
+          },
+        ],
+        where: {
+          UserId,
+          name: {
+            [Op.iLike]: "%" + name + "%",
+          },
+          // [Op.or]: [
+          //   {
+          //     name: {
+          //       [Op.like]: "%" + name + "%",
+          //     },
+          //   },
+          //   {
+          //     brand: {
+          //       [Op.like]: "%" + name + "%",
+          //     },
+          //   },
+          // ],
+        },
+        order: [order],
+      });
+      res.status(200).json({
+        status: 200,
+        totalProduct: totalProduct.length,
+        totalPage,
+        products,
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 
   static findOneProduct(req, res) {
@@ -91,6 +215,8 @@ class AdminController {
     const { name, desc, price, stock, weight, category, brand, condition } =
       req.body;
 
+    const body = req.body;
+
     Product.create({
       UserId: user.id,
       name,
@@ -127,6 +253,7 @@ class AdminController {
         });
       })
       .catch((err) => {
+        // res.json({ status: 500, error: "ERROR BROOO!" });
         res.status(500).json({
           status: 500,
           ...err,
@@ -219,9 +346,27 @@ class AdminController {
   static async deleteProduct(req, res) {
     const id = +req.params.id;
 
-    await Products_image.destroy({
-      where: { ProductId: id },
+    const shoppingCarts = await Shopping_cart.findAll();
+
+    shoppingCarts.forEach(async (shoppingCart) => {
+      const total_line_item = await Line_item.findAll({
+        where: { ShoppingCartId: shoppingCart.id, status: "cart" },
+      });
+
+      if (total_line_item.length === 1) {
+        await Shopping_cart.destroy({
+          where: { id: shoppingCart.id },
+        });
+      }
+
+      await Line_item.destroy({
+        where: { ProductId: id, status: "cart" },
+      });
     });
+
+    // await Products_image.destroy({
+    //   where: { ProductId: id },
+    // });
 
     await Product.destroy({ where: { id } })
       .then(() => {
@@ -237,6 +382,7 @@ class AdminController {
 
   static async findAllOrder(req, res) {
     const userId = req.userData.id;
+    const status = req.params.status;
 
     try {
       const order = await Order.findAll({
@@ -251,9 +397,24 @@ class AdminController {
             ],
           },
         ],
+        where: {
+          status: {
+            [Op.ne]: "open",
+          },
+          [Op.or]:
+            status === "all"
+              ? [
+                  { status: "cancelled" },
+                  { status: "paid" },
+                  { status: "shipping" },
+                  { status: "closed" },
+                ]
+              : { status },
+        },
+        order: [["id", "DESC"]],
       });
 
-      res.json({
+      res.status(200).json({
         status: 200,
         message: " Data orders has been displayed successfully!",
         order,
@@ -289,7 +450,7 @@ class AdminController {
         where: { name },
       });
 
-      res.json({
+      res.status(200).json({
         status: 200,
         message: " Order details has been displayed successfully!",
         order,
@@ -303,33 +464,53 @@ class AdminController {
     const name = req.params.name;
     const status = req.params.status;
 
-    await Order.update(
-      {
-        status,
-      },
-      {
-        where: { name: `HS-INV/${name}` },
-      }
-    );
+    try {
+      await Order.update(
+        {
+          status,
+        },
+        {
+          where: { name: `HS-INV/${name}` },
+        }
+      );
 
-    Line_item.update(
-      {
-        status:
-          status === "paid"
-            ? "ordered"
-            : status === "cancelled"
-            ? status
-            : status === "closed" && status,
-      },
-      {
+      await Line_item.update(
+        {
+          status:
+            status === "paid"
+              ? "ordered"
+              : status === "cancelled"
+              ? status
+              : status === "closed" && status,
+        },
+        {
+          where: { OrderName: `HS-INV/${name}` },
+        }
+      );
+
+      const line_items = await Line_item.findAll({
         where: { OrderName: `HS-INV/${name}` },
-      }
-    );
+      });
 
-    res.json({
-      status: 200,
-      message: "Transaction confirmation success!",
-    });
+      line_items.forEach(async (line_item) => {
+        const product = await Product.findByPk(line_item.ProductId);
+        if (status === "cancelled") {
+          await Product.update(
+            {
+              stock: product.stock + line_item.qty,
+            },
+            { where: { id: product.id } }
+          );
+        }
+      });
+
+      res.status(200).json({
+        status: 200,
+        message: "Transaction confirmation success!",
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 }
 

@@ -479,7 +479,7 @@ class ApiController {
         });
       }
 
-      await Line_item.destroy({ where: { id } });
+      await Line_item.destroy({ where: { id, status: "cart" } });
 
       res.status(200).json({
         status: 200,
@@ -737,6 +737,14 @@ class ApiController {
             { status: "checkout", OrderName },
             { where: { id: line_item.id } }
           );
+
+          const product = await Product.findByPk(line_item.ProductId);
+          await Product.update(
+            {
+              stock: product.stock - line_item.qty,
+            },
+            { where: { id: product.id } }
+          );
         });
 
         totalDue = subTotal;
@@ -785,6 +793,7 @@ class ApiController {
             include: [
               {
                 model: Product,
+                paranoid: false,
                 include: [
                   {
                     model: Products_image,
