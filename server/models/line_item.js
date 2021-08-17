@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Line_item.belongsTo(models.Shopping_cart);
       Line_item.belongsTo(models.Product);
+      Line_item.belongsTo(models.Order);
       // define association here
     }
   }
@@ -22,10 +23,12 @@ module.exports = (sequelize, DataTypes) => {
         //   key: "id",
         // },
       },
+      OrderName: {
+        type: DataTypes.STRING,
+      },
       ProductId: DataTypes.INTEGER,
       qty: DataTypes.INTEGER,
       status: DataTypes.STRING,
-      orderName: DataTypes.STRING,
     },
     {
       hooks: {

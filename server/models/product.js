@@ -112,12 +112,16 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Product",
       hooks: {
         beforeCreate(product, options) {
+          // product.deletedAt = NULL;
           product.expire = new Date();
           product.totalSold = 0;
           product.rating = 0;
           product.views = 0;
         },
       },
+      // deletedAt: "deletedAt",
+      paranoid: true,
+      timestamps: true,
     }
   );
   return Product;

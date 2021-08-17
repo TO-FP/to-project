@@ -12,14 +12,15 @@ const MulterSingle = (dest) => {
       if (access_token) {
         const decoded = tokenVerifier(access_token);
         name = decoded.name.split(" ");
+        name = name[0];
       } else {
-        name = req.body.name.split(" ");
+        name = "user";
+        // console.log(req.body.name);
+        // name = req.body.name;
+        // name = name.split(" ");
       }
 
-      cb(
-        null,
-        name[0].toLowerCase() + "-" + Date.now() + "-" + file.originalname
-      );
+      cb(null, name.toLowerCase() + "-" + Date.now() + "-" + file.originalname);
     },
   });
   var upload = multer({
@@ -48,6 +49,7 @@ const MulterArray = () => {
 
       const mimetype = file.mimetype.split("/");
 
+      // cb(null, Date.now() + "-" + file.originalname);
       cb(null, name[0].toLowerCase() + "-" + Date.now() + "." + mimetype[1]);
     },
   });

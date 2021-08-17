@@ -7,9 +7,19 @@
     <title>Document</title>
   </head>
   <body>
-    <form action="/upload" enctype="multipart/form-data" method="post">
+    <form action="/api/register" enctype="multipart/form-data" method="post">
       <div class="form-group">
-        <input type="file" class="form-control-file" name="uploaded_file" />
+        <input type="file" class="form-control-file" name="file" />
+        <input type="text" name="name" placeholder="nama" />
+        <input type="text" name="email" placeholder="email" />
+        <input type="text" name="password" placeholder="password" />
+        <input type="text" name="gender" placeholder="gender" />
+        <input type="text" name="birthdate" placeholder="birthdate" />
+
+        <!-- <input type="text" name="email" />
+        <input type="text" name="password" />
+        <input type="text" name="gender" />
+        <input type="text" name="birthdate" /> -->
 
         <input type="submit" value="Upload Image!" class="btn btn-default" />
       </div>
