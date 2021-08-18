@@ -1,5 +1,6 @@
 import React from "react";
 
+<<<<<<< HEAD
 function HotItem() {
   return (
     <div className="d-flex justify-content-evenly">
@@ -41,6 +42,21 @@ function HotItem() {
             bulk of the card's content.
           </p>
         </div>
+=======
+function HotItem({ item, price, brand, img }) {
+  // console.log(img);
+  return (
+    <div className="card card-size">
+      {/* // image */}
+      <img src={`http://localhost:3000/images/products/${img}`} alt="..." />
+      <p>{"NEW ITEMS"}</p>
+      {/* ... */}
+
+      <div className="card-body">
+        <p>{item}</p>
+        <p>IDR {price}</p>
+        <p>Brand: {brand}</p>
+>>>>>>> user
       </div>
     </div>
   );

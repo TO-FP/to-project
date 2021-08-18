@@ -1,6 +1,13 @@
 import React from "react";
+<<<<<<< HEAD
 
 function ProfileSummary() {
+=======
+import { useState } from "react";
+function ProfileSummary() {
+  const [item, setItem] = useState([]);
+
+>>>>>>> user
   return (
     <div class="col">
       <form>

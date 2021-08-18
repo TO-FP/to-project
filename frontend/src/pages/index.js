@@ -6,7 +6,15 @@ import Cart from "./Cart";
 import Profile from "./Profile";
 import PlaceOrder from "./PlaceOrder";
 import Product from "./Product";
+<<<<<<< HEAD
 
+=======
+import MainSection from "./MainSection";
+import ProductByUserId from "./ProductByUserId";
+import MyOrder from "./MyOrder";
+import MyCart from "./MyCart";
+import Payment from "./Payment";
+>>>>>>> user
 export {
   Home,
   Login,
@@ -16,4 +24,12 @@ export {
   Profile,
   PlaceOrder,
   Product,
+<<<<<<< HEAD
+=======
+  MainSection,
+  ProductByUserId,
+  MyOrder,
+  MyCart,
+  Payment,
+>>>>>>> user
 };

@@ -1,14 +1,5 @@
-<<<<<<< HEAD
 import React from "react";
-import { Blocking, NavbarAfterLogIn, ProductCard } from "../component";
-
-function Product() {
-  return (
-    <div>
-      <NavbarAfterLogIn />
-=======
 import axios from "axios";
-import React from "react";
 import { useEffect } from "react";
 import { Blocking, NavbarAfterLogIn, ProductCard } from "../component";
 import { useState } from "react";
@@ -17,19 +8,26 @@ import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Slide } from "react-slideshow-image";
+// import { useParams } from "react-router-dom";
 import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-function Product() {
+import { Slide } from "react-slideshow-image";
+function ProductByUserId() {
   const URL = "http://localhost:3000/api";
   const [item, setItem] = useState([]);
   const [dropdownOpen, setOpen] = useState(false);
-
   const toggle = () => setOpen(!dropdownOpen);
+  const params = useParams();
+  const UserId = +params.UserId;
+  const page = +params.page;
+  //   console.log(page);
+
+  //   console.log(UserId);
+
   // useEffect(() => {
   //   getItem();
   // }, []);
@@ -42,24 +40,24 @@ function Product() {
   //     // console.log(item.data.products);
   //   });
   // };
-  const params = useParams();
-  const pageid = +params.page;
+  //   const params = useParams();
 
   const [productPage, setProductPage] = useState(0);
 
   const handlePageClick = async (event) => {
     let page = event.selected;
-    console.log("click");
+    // console.log(page);
     // console.log(page + 1);
     await axios({
       method: "POST",
-      url: `${URL}/products/${page + 1}`,
+      url: `${URL}/products-by/${UserId}/${page + 1}`,
+      data: { limit: 10 },
     }).then((item) => {
       setItem(item.data.products);
       setProductPage(item.data.totalPage);
     });
   };
-
+  console.log(item);
   useEffect(() => {
     getPage();
   }, []);
@@ -67,8 +65,8 @@ function Product() {
   const getPage = async (sort) => {
     await axios({
       method: "POST",
-      url: `${URL}/products`,
-      data: { sort: sort },
+      url: `${URL}/products-by/${UserId}`,
+      data: { limit: 10, sort: sort },
     }).then((item) => {
       setItem(item.data.products);
       setProductPage(item.data.totalPage);
@@ -80,8 +78,8 @@ function Product() {
     // console.log(sort);
     getPage(sort);
   };
-
   console.log(productPage);
+  // console.log(productPage);
 
   // console.log(item);
   // let pageCount = Math.ceil(item.length / 10);
@@ -93,7 +91,7 @@ function Product() {
   // };
   // let count = 0;
 
-  // console.log(productPage);
+  console.log(productPage);
   return (
     <div>
       {/* <NavbarAfterLogIn /> */}
@@ -126,17 +124,12 @@ function Product() {
           </div>
         </Slide>
       </div>
->>>>>>> user
       <div className="title product-header">
         <h1>HackShoes</h1>
       </div>
       <Blocking />
       <div class="container-lg product-show">
         <div class="row">
-<<<<<<< HEAD
-          <div class="col-sm-4 product-navigate">col-sm-4</div>
-          <ProductCard />
-=======
           <div class="col-sm-4 product-navigate">
             <div class="container-md side-image">
               <img
@@ -196,7 +189,6 @@ function Product() {
                 });
                 let [{ fileName }] = img_file;
                 // console.log(img_file);
-                // console.log(item.UserId);
                 return (
                   <ProductCard
                     item={item.name}
@@ -233,11 +225,10 @@ function Product() {
               </div>
             </div>
           </div>
->>>>>>> user
         </div>
       </div>
     </div>
   );
 }
 
-export default Product;
+export default ProductByUserId;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 
 function ProfilePhoto() {
@@ -10,3 +11,14 @@ function ProfilePhoto() {
 }
 
 export default ProfilePhoto;
+=======
+// import React from "react";
+
+// function ProfilePhoto() {
+//   return (
+
+//   );
+// }
+
+// export default ProfilePhoto;
+>>>>>>> user
