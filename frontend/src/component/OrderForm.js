@@ -16,7 +16,7 @@ function OrderForm() {
   const getCheckout = async (city, address) => {
     await axios({
       method: "POST",
-      url: `${URL}//checkouts`,
+      url: `${URL}/checkouts`,
       data: { city, address },
       headers: { access_token: token },
     });

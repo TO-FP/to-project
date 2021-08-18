@@ -18,9 +18,6 @@ const Logo = () => {
         >
           Register
         </Link>
-        <Link type="button" class="btn btn-primary log-reg-button">
-          Become Seller
-        </Link>
       </div>
     </span>
   );

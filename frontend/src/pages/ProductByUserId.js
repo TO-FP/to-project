@@ -51,7 +51,7 @@ function ProductByUserId() {
     await axios({
       method: "POST",
       url: `${URL}/products-by/${UserId}/${page + 1}`,
-      data: { limit: 1 },
+      data: { limit: 10 },
     }).then((item) => {
       setItem(item.data.products);
       setProductPage(item.data.totalPage);
@@ -66,7 +66,7 @@ function ProductByUserId() {
     await axios({
       method: "POST",
       url: `${URL}/products-by/${UserId}`,
-      data: { limit: 1, sort: sort },
+      data: { limit: 10, sort: sort },
     }).then((item) => {
       setItem(item.data.products);
       setProductPage(item.data.totalPage);
@@ -91,7 +91,7 @@ function ProductByUserId() {
   // };
   // let count = 0;
 
-  // console.log(productPage);
+  console.log(productPage);
   return (
     <div>
       {/* <NavbarAfterLogIn /> */}

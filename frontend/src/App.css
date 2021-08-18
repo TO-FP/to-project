@@ -407,3 +407,8 @@ button.confirm-order {
   background-color: rgba(231, 231, 231, 0.973);
   padding-left: 1rem;
 }
+
+.delete-cart-button {
+  display: inline-block;
+  margin-left: 2rem;
+}

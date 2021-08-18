@@ -37,7 +37,7 @@ function Login({ login, userLogin, getToken, getUser }) {
       getUser(userData);
       history.push("/profile");
     } catch (err) {
-      Swal.fire("ERROR", `${err}`, "error");
+      Swal.fire("ERROR", "Invalid Email/Password");
     }
   };
 

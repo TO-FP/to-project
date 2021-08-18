@@ -93,6 +93,21 @@ function Cart() {
     });
     getCart();
   };
+
+  const deleteFullCartHandler = (e, id) => {
+    e.preventDefault();
+    // console.log(id);
+    deleteFullCart(id);
+  };
+  console.log(item);
+  const deleteFullCart = async (id) => {
+    await axios({
+      method: "DELETE",
+      url: `${URL}/carts/${id}/remove-cart`,
+      headers: { access_token: token },
+    });
+    getCart();
+  };
   const [updateqty, setUpdateQty] = useState({
     id: "",
     value: "",
@@ -197,6 +212,14 @@ function Cart() {
                   handleClick={(e) => handleSelectAll(e)}
                   isChecked={item.status}
                 />
+                <div className=" delete-cart-button">
+                  <button
+                    className="btn btn-dark"
+                    onClick={(e, id) => deleteFullCartHandler(e, item.id)}
+                  >
+                    Delete Cart
+                  </button>
+                </div>
               </div>
             </div>
             <table class="table table-borderless cart-table">
