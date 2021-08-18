@@ -9,7 +9,7 @@ import {
   Profile,
   PlaceOrder,
   Product,
-<<<<<<< HEAD
+
 } from "./pages";
 import { Footer } from "./component";
 import Login from "./pages/Login";
@@ -28,7 +28,7 @@ function App() {
           <Route path="/place_order" component={PlaceOrder}></Route>
           <Route path="/product/detail" component={ProductDetail}></Route>
         </Switch>
-=======
+
   MainSection,
 } from "./pages";
 import { Footer } from "./component";
@@ -75,7 +75,7 @@ function App() {
           </Switch>
         )}
 
->>>>>>> user
+
         <Footer />
       </div>
     </BrowserRouter>
