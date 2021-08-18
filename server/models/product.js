@@ -113,10 +113,14 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeCreate(product, options) {
           // product.deletedAt = NULL;
+//           product.expire = new Date();
+//           product.totalSold = 0;
+//           product.rating = 0;
+//           product.views = 0;
           product.expire = new Date();
-          product.totalSold = 0;
-          product.rating = 0;
-          product.views = 0;
+          product.totalSold = product.totalSold ? product.totalSold : 0;
+          product.rating = product.rating ? product.rating : 0;
+          product.views = product.views ? product.views : 0;
         },
       },
       // deletedAt: "deletedAt",
