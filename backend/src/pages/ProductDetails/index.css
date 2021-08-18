@@ -1,0 +1,17 @@
+.details-image-primary {
+  width: 100%;
+  height: 300px;
+}
+
+.details-image-secondary {
+  width: 100px;
+  height: 100px;
+
+  /* margin-right: 20px; */
+}
+
+.details-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

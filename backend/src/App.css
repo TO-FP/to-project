@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+
+* {
+  margin: 0;
+  font-family: "Poppins";
+}
+
+.mainBG {
+  background-color: #fff;
+}
+
+.mainBG > .table > tbody > tr > td {
+  vertical-align: middle;
+}

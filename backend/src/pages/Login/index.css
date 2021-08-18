@@ -1,0 +1,28 @@
+.login {
+  background-color: #0a81ab;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  padding-top: 25px;
+  background-color: #fff;
+  width: 400px;
+  height: 350px;
+  box-shadow: 0px 0px 25px;
+}
+
+.logo {
+  text-align: center;
+}
+
+.form-container {
+  padding: 20px;
+  text-align: left;
+}
+
+.form-container > div {
+  margin-bottom: 20px;
+}
