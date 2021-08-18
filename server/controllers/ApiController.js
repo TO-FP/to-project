@@ -295,8 +295,8 @@ class ApiController {
       if (shoppingCart.length > 0) {
         const carts = shoppingCart;
 
-        let scID = 0; // seller ditemukan
-        let productFound = false; //produk sama ditemukan
+        let scID = 0;
+        let productFound = false;
 
         carts.forEach(async (cart) => {
           let foundSeller = false;
@@ -307,7 +307,6 @@ class ApiController {
               scID = cart.id;
             }
 
-            // update keranjang apabila ada produk yg sama
             if (
               line_item.ProductId === productId &&
               line_item.status === "cart"
@@ -419,7 +418,6 @@ class ApiController {
   static async cartCheckbox(req, res) {
     const id = +req.params.id;
     const userId = req.userData.id;
-    // const checkbox = req.params.checkbox;
 
     try {
       const mycart = await Shopping_cart.findByPk(id);
@@ -521,67 +519,6 @@ class ApiController {
     }
   }
 
-  // static async orderSummary(req, res) {
-  //   const userId = req.userData.id;
-  //   const userName = req.userData.name;
-
-  //   const shoppingCarts = await Shopping_cart.findAll({
-  //     where: { UserId: userId, status: "open" },
-  //     attributes: ["id"],
-  //     include: [
-  //       {
-  //         model: Line_item,
-  //         where: { status: "cart" },
-  //         attributes: ["id", "ShoppingCartId", "ProductId", "qty"],
-  //         include: [
-  //           {
-  //             model: Product,
-  //             attributes: ["id", "name", "price", "category", "brand"],
-  //           },
-  //         ],
-  //         order: [["id", "ASC"]],
-  //       },
-  //     ],
-  //     order: [["id", "ASC"]],
-  //   });
-
-  //   let qty = 0;
-  //   let subTotal = 0;
-  //   let totalDue = 0;
-
-  //   shoppingCarts.forEach(async (shoppingCart) => {
-  //     let tempSubTotal = 0;
-
-  //     shoppingCart.Line_items.forEach((line_item) => {
-  //       const total = line_item.qty * line_item.Product.price;
-  //       tempSubTotal += total;
-  //       qty++;
-  //     });
-
-  //     subTotal += tempSubTotal;
-  //   });
-
-  //   totalDue = subTotal;
-
-  //   let discount = 0;
-  //   if (qty > 2) {
-  //     discount = (5 * totalDue) / 100;
-  //     totalDue -= discount;
-  //   }
-  //   const tax = (10 * totalDue) / 100;
-  //   totalDue += tax;
-
-  //   res.status(200).json({
-  //     status: 200,
-  //     message: "Order summary displayed successfully!",
-  //     shoppingCarts,
-  //     subTotal,
-  //     discount,
-  //     tax,
-  //     totalDue,
-  //   });
-  // }
-
   static async orderSummary(req, res) {
     const userId = req.userData.id;
     const userName = req.userData.name;
@@ -609,7 +546,6 @@ class ApiController {
                 {
                   model: Products_image,
                   order: [["id", "ASC"]],
-                  // where: { primary: true },
                   limit: 1,
                   attributes: ["fileName"],
                 },

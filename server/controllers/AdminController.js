@@ -101,7 +101,6 @@ class AdminController {
     const UserId = req.userData.id;
     let { name, sort, page } = req.params;
 
-    // if (!name) name = " ";
     if (!page) page = 1;
 
     const limit = 5;
@@ -151,18 +150,6 @@ class AdminController {
           name: {
             [Op.iLike]: "%" + name + "%",
           },
-          // [Op.or]: [
-          //   {
-          //     name: {
-          //       [Op.like]: "%" + name + "%",
-          //     },
-          //   },
-          //   {
-          //     brand: {
-          //       [Op.like]: "%" + name + "%",
-          //     },
-          //   },
-          // ],
         },
         order: [order],
       });
@@ -363,10 +350,6 @@ class AdminController {
         where: { ProductId: id, status: "cart" },
       });
     });
-
-    // await Products_image.destroy({
-    //   where: { ProductId: id },
-    // });
 
     await Product.destroy({ where: { id } })
       .then(() => {
