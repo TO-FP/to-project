@@ -10,13 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.hasMany(models.Product);
+      User.hasMany(models.Order);
     }
   }
   User.init(
     {
       name: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
+          notNull: {
+            msg: "Name cannot be null!",
+          },
           notEmpty: {
             msg: "Name cannot be empty!",
           },
@@ -24,7 +29,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
+          notNull: {
+            msg: "Email cannot be null!",
+          },
           notEmpty: {
             msg: "Email cannot be empty!",
           },
@@ -44,7 +53,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
+          notNull: {
+            msg: "Password cannot be null!",
+          },
           notEmpty: {
             msg: "Password cannot be empty!",
           },

@@ -1,57 +1,57 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Orders', {
+    await queryInterface.createTable("Orders", {
       id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       UserId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        primaryKey: true,
       },
       subtotal: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       discount: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       tax: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       totalDue: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       totalQty: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       payTrx: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING,
       },
       city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       address: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Orders');
-  }
+    await queryInterface.dropTable("Orders");
+  },
 };

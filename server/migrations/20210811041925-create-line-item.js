@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      OrderName: {
+        type: Sequelize.STRING,
+      },
       ShoppingCartId: {
         type: Sequelize.INTEGER,
       },
@@ -18,9 +21,6 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.STRING,
-      },
-      orderName: {
         type: Sequelize.STRING,
       },
       createdAt: {
